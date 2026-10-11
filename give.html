@@ -22,7 +22,6 @@
       <li><a href="connect.html" data-en="Connect" data-np="जोडिनुहोस्">Connect</a></li>
       <li><a href="groups.html" data-en="Groups" data-np="समूहहरू">Groups</a></li>
       <li><a href="events.html" data-en="Events" data-np="कार्यक्रमहरू">Events</a></li>
-      <li><a href="testimonies.html" data-en="Testimonies" data-np="गवाहीहरू">Testimonies</a></li>
       <li><a href="about.html" data-en="About Us" data-np="हाम्रो बारेमा">About Us</a></li>
       <li><a href="give.html" class="active" data-en="Give" data-np="भेटी">Give</a></li>
     </ul>
@@ -36,7 +35,7 @@
 
 <main>
   <section>
-    <div class="wrap two-col hero-in" style="align-items:center;">
+    <div class="wrap hero-in">
       <div>
         <h1 class="display" style="font-size:clamp(34px,5vw,52px); max-width:15ch;" data-en="Giving is part of our life together" data-np="दिनु हाम्रो सँगैको जीवनको एउटा हिस्सा हो">
           Giving is part of our life together.
@@ -46,7 +45,6 @@
         </p>
         <a class="btn btn-primary" href="#ways-to-give" style="margin-top:8px;" data-en="See ways to give" data-np="भेटी दिने तरिकाहरू हेर्नुहोस्">See ways to give</a>
       </div>
-      <div class="art-block" style="aspect-ratio:4/3; background:linear-gradient(150deg,#4d4d4d,#1a1a1a 60%,#000000);"></div>
     </div>
   </section>
 
@@ -82,73 +80,55 @@
           <a class="btn btn-on-dark" href="connect.html#visit-map" data-en="Plan your visit" data-np="आउने योजना बनाउनुहोस्">Plan your visit</a>
         </div>
 
-        <!-- BANK TRANSFER -->
+        <!-- BANK TRANSFER: they leave their details and the bank details are emailed to them -->
         <div class="giving-panel" id="panel-bank" role="tabpanel" hidden>
           <p class="panel-lead" data-en="Give anytime via direct bank transfer." data-np="बैंक ट्रान्सफरमार्फत जुनसुकै बेला भेटी दिन सक्नुहुन्छ।">Give anytime via direct bank transfer.</p>
-          <!-- TODO: replace each "To be added" and delete its data-placeholder attribute (this also enables the Copy button). -->
-          <div class="detail-list">
-            <div class="detail-row">
-              <div>
-                <span class="detail-label" data-en="Account name" data-np="खाताको नाम">Account name</span>
-                <strong class="detail-value" data-placeholder>To be added</strong>
-              </div>
-              <button type="button" class="copy-btn" data-en="Copy" data-np="कपी गर्नुहोस्">Copy</button>
+          <p class="panel-sub" data-en="Fill in your details and we will email you the church&#x27;s bank details from our official email." data-np="आफ्नो विवरण भर्नुहोस्, हामी चर्चको आधिकारिक इमेलबाट तपाईंलाई चर्चको बैंक विवरण पठाउनेछौं।">Fill in your details and we will email you the church's bank details from our official email.</p>
+          <form class="give-form" data-method="bank">
+            <!-- spam trap: real visitors never see or fill this -->
+            <input class="give-website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute; left:-9999px;">
+            <div class="form-row">
+              <label for="give-bank-name" data-en="Name" data-np="नाम">Name</label>
+              <input id="give-bank-name" type="text" placeholder="Your full name" required data-en-placeholder="Your full name" data-np-placeholder="तपाईंको पूरा नाम">
             </div>
-            <div class="detail-row">
-              <div>
-                <span class="detail-label" data-en="Account number" data-np="खाता नम्बर">Account number</span>
-                <strong class="detail-value" data-placeholder>To be added</strong>
-              </div>
-              <button type="button" class="copy-btn" data-en="Copy" data-np="कपी गर्नुहोस्">Copy</button>
+            <div class="form-row">
+              <label for="give-bank-email" data-en="Email" data-np="इमेल">Email</label>
+              <input id="give-bank-email" type="email" placeholder="you@example.com" required data-en-placeholder="you@example.com" data-np-placeholder="तपाईंको इमेल">
             </div>
-            <div class="detail-row">
-              <div>
-                <span class="detail-label" data-en="Bank" data-np="बैंक">Bank</span>
-                <strong class="detail-value" data-placeholder>To be added</strong>
-              </div>
-              <button type="button" class="copy-btn" data-en="Copy" data-np="कपी गर्नुहोस्">Copy</button>
+            <div class="form-row">
+              <label for="give-bank-phone" data-en="Phone (optional)" data-np="फोन (ऐच्छिक)">Phone (optional)</label>
+              <input id="give-bank-phone" type="tel" placeholder="98XXXXXXXX" data-en-placeholder="98XXXXXXXX" data-np-placeholder="९८XXXXXXXX">
             </div>
-            <div class="detail-row">
-              <div>
-                <span class="detail-label" data-en="Branch" data-np="शाखा">Branch</span>
-                <strong class="detail-value" data-placeholder>To be added</strong>
-              </div>
-              <button type="button" class="copy-btn" data-en="Copy" data-np="कपी गर्नुहोस्">Copy</button>
-            </div>
-            <div class="detail-row">
-              <div>
-                <span class="detail-label" data-en="SWIFT / BIC code" data-np="स्विफ्ट / BIC कोड">SWIFT / BIC code</span>
-                <strong class="detail-value" data-placeholder>To be added</strong>
-              </div>
-              <button type="button" class="copy-btn" data-en="Copy" data-np="कपी गर्नुहोस्">Copy</button>
-            </div>
-          </div>
-          <p class="panel-note" data-fund-only="tithe" data-en="Payment reference: your name + Tithe" data-np="भुक्तानी रेफरेन्स: तपाईंको नाम + दशांश">Payment reference: your name + Tithe</p>
-          <p class="panel-note" data-fund-only="special" data-en="Payment reference: your name + Special offering" data-np="भुक्तानी रेफरेन्स: तपाईंको नाम + विशेष भेटी">Payment reference: your name + Special offering</p>
-          <p class="panel-note" data-en="Giving from outside Nepal? Use the SWIFT / BIC code above." data-np="नेपाल बाहिरबाट भेटी पठाउँदै हुनुहुन्छ? माथिको स्विफ्ट / BIC कोड प्रयोग गर्नुहोस्।">Giving from outside Nepal? Use the SWIFT / BIC code above.</p>
+            <button class="btn btn-on-dark" type="submit" data-en="Email me the bank details" data-np="मलाई बैंक विवरण इमेल गर्नुहोस्">Email me the bank details</button>
+            <p class="give-status panel-note" style="display:none;"></p>
+          </form>
         </div>
 
-        <!-- DIGITAL WALLETS -->
+        <!-- DIGITAL WALLETS: they leave their details and the payment QR is emailed to them -->
         <div class="giving-panel" id="panel-wallet" role="tabpanel" hidden>
-          <p class="panel-lead" data-en="Send a gift instantly through your mobile wallet — fast, secure, and simple." data-np="आफ्नो मोबाइल वालेटमार्फत तुरुन्तै भेटी पठाउनुहोस् — छिटो, सुरक्षित, र सजिलो।">Send a gift instantly through your mobile wallet — fast, secure, and simple.</p>
-          <div class="chips" role="tablist" aria-label="Wallet">
-            <button type="button" class="chip wallet-btn active" data-wallet="esewa">eSewa</button>
-          </div>
-          <div class="wallet-body" id="wallet-esewa">
-            <!-- TODO: replace the placeholder box with <img src="pictures/esewa-qr.png" alt="eSewa QR code"> -->
-            <div class="qr-box" data-en="QR code" data-np="QR कोड">QR code</div>
-            <div class="wallet-info">
-              <p class="wallet-help" data-en="Scan the QR code with your wallet app, or send to the ID below." data-np="आफ्नो वालेट एपले QR कोड स्क्यान गर्नुहोस्, वा तलको ID मा पठाउनुहोस्।">Scan the QR code with your wallet app, or send to the ID below.</p>
-            <div class="detail-row">
-              <div>
-                <span class="detail-label" data-en="eSewa ID" data-np="eSewa ID">eSewa ID</span>
-                <strong class="detail-value" data-placeholder>To be added</strong>
-              </div>
-              <button type="button" class="copy-btn" data-en="Copy" data-np="कपी गर्नुहोस्">Copy</button>
+          <p class="panel-lead" data-en="Give instantly through your mobile wallet or banking app." data-np="आफ्नो मोबाइल वालेट वा बैंकिङ एपमार्फत तुरुन्तै भेटी दिनुहोस्।">Give instantly through your mobile wallet or banking app.</p>
+          <p class="panel-sub" data-en="Fill in your details and we will email you a QR code from our official email. Scan it to give." data-np="आफ्नो विवरण भर्नुहोस्, हामी चर्चको आधिकारिक इमेलबाट तपाईंलाई QR कोड पठाउनेछौं। त्यसलाई स्क्यान गरी भेटी दिनुहोस्।">Fill in your details and we will email you a QR code from our official email. Scan it to give.</p>
+          <form class="give-form" data-method="wallet">
+            <!-- spam trap: real visitors never see or fill this -->
+            <input class="give-website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute; left:-9999px;">
+            <div class="form-row">
+              <label for="give-wallet-name" data-en="Name" data-np="नाम">Name</label>
+              <input id="give-wallet-name" type="text" placeholder="Your full name" required data-en-placeholder="Your full name" data-np-placeholder="तपाईंको पूरा नाम">
             </div>
+            <div class="form-row">
+              <label for="give-wallet-email" data-en="Email" data-np="इमेल">Email</label>
+              <input id="give-wallet-email" type="email" placeholder="you@example.com" required data-en-placeholder="you@example.com" data-np-placeholder="तपाईंको इमेल">
             </div>
-          </div>
+            <div class="form-row">
+              <label for="give-wallet-phone" data-en="Phone (optional)" data-np="फोन (ऐच्छिक)">Phone (optional)</label>
+              <input id="give-wallet-phone" type="tel" placeholder="98XXXXXXXX" data-en-placeholder="98XXXXXXXX" data-np-placeholder="९८XXXXXXXX">
+            </div>
+            <button class="btn btn-on-dark" type="submit" data-en="Email me the QR code" data-np="मलाई QR कोड इमेल गर्नुहोस्">Email me the QR code</button>
+            <p class="give-status panel-note" style="display:none;"></p>
+          </form>
         </div>
+
+      </div>
 
       </div>
     </div>
@@ -198,7 +178,6 @@
           <li><a href="about.html" data-en="About Us" data-np="हाम्रो बारेमा">About Us</a></li>
           <li><a href="events.html" data-en="Events" data-np="कार्यक्रमहरू">Events</a></li>
           <li><a href="connect.html" data-en="Connect" data-np="जोडिनुहोस्">Connect</a></li>
-          <li><a href="testimonies.html" data-en="Testimonies" data-np="गवाहीहरू">Testimonies</a></li>
         </ul>
       </div>
       <div>
@@ -214,7 +193,7 @@
         <ul>
           <li data-en="Saturday, 10:30 AM &amp; 12:30 PM" data-np="शनिबार, बिहान १०:३० र दिउँसो १२:३०">Saturday, 10:30 AM & 12:30 PM</li>
           <li data-en="New Hope Church, Nepal" data-np="New Hope Church, नेपाल">New Hope Church, Nepal</li>
-          <li>hello@newhope.org.np</li>
+          <li>newhopekavre@gmail.com</li>
         </ul>
       </div>
     </div>

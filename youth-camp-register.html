@@ -44,7 +44,6 @@
       <li><a href="connect.html" data-en="Connect" data-np="जोडिनुहोस्">Connect</a></li>
       <li><a href="groups.html" data-en="Groups" data-np="समूहहरू">Groups</a></li>
       <li><a href="events.html" class="active" data-en="Events" data-np="कार्यक्रमहरू">Events</a></li>
-      <li><a href="testimonies.html" data-en="Testimonies" data-np="गवाहीहरू">Testimonies</a></li>
       <li><a href="about.html" data-en="About Us" data-np="हाम्रो बारेमा">About Us</a></li>
       <li><a href="give.html" data-en="Give" data-np="भेटी">Give</a></li>
     </ul>
@@ -127,8 +126,8 @@
         <ul class="info-list" style="margin-top:16px; margin-bottom:0;">
           <li data-en="Registration fee: Rs. 1,500 per person." data-np="दर्ता शुल्क: प्रति व्यक्ति रु. १,५००।">Registration fee: Rs. 1,500 per person.</li>
           <li data-en="Your place is confirmed once the fee is received." data-np="शुल्क प्राप्त भएपछि मात्र तपाईंको स्थान पक्का हुनेछ।">Your place is confirmed once the fee is received.</li>
-          <li data-en="Pay in person at your New Hope church, or we will phone you to arrange a transfer. No payment is taken on this website." data-np="आफ्नो New Hope चर्चमा प्रत्यक्ष शुल्क बुझाउनुहोस्, वा रकम पठाउने व्यवस्थाका लागि हामी तपाईंलाई फोन गर्नेछौं। यस वेबसाइटमा कुनै भुक्तानी लिइँदैन।">Pay in person at your New Hope church, or we will phone you to arrange a transfer. No payment is taken on this website.</li>
-          <li data-en="Questions? Email hello@newhope.org.np or visit our Connect page." data-np="प्रश्न छ? hello@newhope.org.np मा इमेल गर्नुहोस् वा हाम्रो जोडिनुहोस् पृष्ठ भ्रमण गर्नुहोस्।">Questions? Email hello@newhope.org.np or visit our Connect page.</li>
+          <li data-en="How to pay: fill in the form and we will email you the payment QR code from the church&#x27;s official email. After paying, come back here, upload a screenshot of the payment confirmation, and submit the form." data-np="शुल्क कसरी बुझाउने: फारम भर्नुहोस्, हामी चर्चको आधिकारिक इमेलबाट तपाईंलाई भुक्तानीको QR कोड पठाउनेछौं। भुक्तानी गरेपछि यहीँ फर्कनुहोस्, भुक्तानी पुष्टिको स्क्रिनसट अपलोड गर्नुहोस् र फारम पेस गर्नुहोस्।">How to pay: fill in the form and we will email you the payment QR code from the church's official email. After paying, come back here, upload a screenshot of the payment confirmation, and submit the form.</li>
+          <li data-en="Questions? Email newhopekavre@gmail.com or visit our Connect page." data-np="प्रश्न छ? newhopekavre@gmail.com मा इमेल गर्नुहोस् वा हाम्रो जोडिनुहोस् पृष्ठ भ्रमण गर्नुहोस्।">Questions? Email newhopekavre@gmail.com or visit our Connect page.</li>
         </ul>
       </div>
 
@@ -161,8 +160,8 @@
             <input id="yc-phone" name="phone" type="tel" placeholder="98XXXXXXXX" required data-en-placeholder="98XXXXXXXX" data-np-placeholder="९८XXXXXXXX">
           </div>
           <div class="form-row">
-            <label for="yc-email" data-en="Email (optional)" data-np="इमेल (ऐच्छिक)">Email (optional)</label>
-            <input id="yc-email" name="email" type="email" placeholder="you@example.com" data-en-placeholder="you@example.com" data-np-placeholder="तपाईंको इमेल">
+            <label for="yc-email" data-en="Email" data-np="इमेल">Email</label>
+            <input id="yc-email" name="email" type="email" placeholder="you@example.com" required data-en-placeholder="you@example.com" data-np-placeholder="तपाईंको इमेल">
           </div>
         </div>
 
@@ -216,7 +215,19 @@
           <label for="yc-consent" data-en="I consent to New Hope Church taking photos or video during camp for church use, and confirm the information above is accurate." data-np="म शिविरको क्रममा चर्चको प्रयोगका लागि New Hope Church ले फोटो वा भिडियो लिन सहमति जनाउँछु, र माथिको जानकारी सही रहेको पुष्टि गर्छु।">I consent to New Hope Church taking photos or video during camp for church use, and confirm the information above is accurate.</label>
         </div>
 
-        <button class="btn btn-primary" type="submit" data-en="Register for Youth Camp" data-np="Youth Campका लागि दर्ता गर्नुहोस्">Register for Youth Camp</button>
+        <!-- Step 1: ask for the payment QR by email -->
+        <button id="yc-request-btn" class="btn btn-primary" type="button" data-en="Send me the payment details" data-np="मलाई भुक्तानी विवरण पठाउनुहोस्">Send me the payment details</button>
+
+        <!-- Step 2: shown once step 1 is done (and again when they come back) -->
+        <div id="yc-payment-step" hidden style="margin-top:28px; padding-top:24px; border-top:1px solid var(--line);">
+          <h3 style="font-size:18px;" data-en="Finish your registration" data-np="आफ्नो दर्ता पूरा गर्नुहोस्">Finish your registration</h3>
+          <p class="hint" style="margin:8px 0 18px; font-size:14px; color:var(--muted);" data-en="Check your email for the payment QR code from the church&#x27;s official email. After paying, upload a screenshot of the payment confirmation and submit." data-np="चर्चको आधिकारिक इमेलबाट पठाइएको भुक्तानीको QR कोडका लागि आफ्नो इमेल हेर्नुहोस्। भुक्तानी गरेपछि भुक्तानी पुष्टिको स्क्रिनसट अपलोड गरी पेस गर्नुहोस्।">Check your email for the payment QR code from the church's official email. After paying, upload a screenshot of the payment confirmation and submit.</p>
+          <div class="form-row">
+            <label for="yc-screenshot" data-en="Payment confirmation screenshot" data-np="भुक्तानी पुष्टिको स्क्रिनसट">Payment confirmation screenshot</label>
+            <input id="yc-screenshot" type="file" accept="image/*">
+          </div>
+          <button class="btn btn-primary" type="submit" data-en="Submit registration" data-np="दर्ता पेस गर्नुहोस्">Submit registration</button>
+        </div>
         <p id="yc-status" style="margin-top:12px; font-size:14px; color:var(--muted); display:none;"></p>
       </form>
     </div>
@@ -253,7 +264,6 @@
           <li><a href="about.html" data-en="About Us" data-np="हाम्रो बारेमा">About Us</a></li>
           <li><a href="events.html" data-en="Events" data-np="कार्यक्रमहरू">Events</a></li>
           <li><a href="connect.html" data-en="Connect" data-np="जोडिनुहोस्">Connect</a></li>
-          <li><a href="testimonies.html" data-en="Testimonies" data-np="गवाहीहरू">Testimonies</a></li>
         </ul>
       </div>
       <div>
@@ -269,7 +279,7 @@
         <ul>
           <li data-en="Saturday, 10:30 AM &amp; 12:30 PM" data-np="शनिबार, बिहान १०:३० र दिउँसो १२:३०">Saturday, 10:30 AM & 12:30 PM</li>
           <li data-en="New Hope Church, Nepal" data-np="New Hope Church, नेपाल">New Hope Church, Nepal</li>
-          <li>hello@newhope.org.np</li>
+          <li>newhopekavre@gmail.com</li>
         </ul>
       </div>
     </div>
