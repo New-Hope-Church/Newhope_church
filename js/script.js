@@ -103,10 +103,13 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // Youth Camp registration form: validates required fields (including
-  // guardian info for campers under 18), then opens the visitor's email app
-  // with the registration pre-filled, same no-backend pattern as the contact form.
+  // guardian info for campers under 18), then saves the registration to the
+  // church's Google Sheet through its Apps Script web app.
+  // Paste the web app URL (ends in /exec) between the quotes below.
+  var NH_YC_ENDPOINT = 'https://script.google.com/macros/s/AKfycbw0-zw4dSA3fVR7WygajqG7IHfbB2vgzrmm9P33I7RVx2kRVfH-P9tswiUEuBps2830Eg/exec';
   var ycForm = document.getElementById('youth-camp-form');
   var ycStatus = document.getElementById('yc-status');
+  var ycGuardianHint = document.getElementById('yc-guardian-hint');
   if (ycForm) {
     var ycVal = function (id) {
       var el = document.getElementById(id);
@@ -134,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function () {
       var ageNum = parseInt(age, 10);
       var isMinor = age !== '' && !isNaN(ageNum) && ageNum < 18;
 
-      var missingCore = !name || !age || !phone || !email || !emName || !emPhone;
+      var missingCore = !name || !age || !phone || !emName || !emPhone;
       var missingGuardian = isMinor && (!guardianName || !guardianPhone);
       var missingConsent = consent && !consent.checked;
 
@@ -158,36 +161,81 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
 
-      var lines = [
-        'Camper name: ' + name,
-        'Age: ' + age,
-        'Gender: ' + (gender || '-'),
-        'Phone: ' + phone,
-        'Email: ' + email,
-        'Home / Connect group: ' + (group || '-'),
-        'Parent/Guardian name: ' + (guardianName || '-'),
-        'Parent/Guardian phone: ' + (guardianPhone || '-'),
-        'Emergency contact name: ' + emName,
-        'Emergency contact phone: ' + emPhone,
-        'T-shirt size: ' + (tshirt || '-'),
-        'Allergies / medical / dietary notes: ' + (notes || '-')
-      ];
-
-      var subject = encodeURIComponent('Youth Camp Registration - ' + name);
-      var body = encodeURIComponent(lines.join('\n'));
-      window.location.href = 'mailto:hello@newhope.org.np?subject=' + subject + '&body=' + body;
-
-      if (ycStatus) {
-        ycStatus.textContent = lang === 'np'
-          ? 'तपाईंको दर्ता hello@newhope.org.np मा पठाउन इमेल एप खोल्दै…'
-          : 'Opening your email app to send your registration to hello@newhope.org.np…';
+      var showStatus = function (en, np) {
+        if (!ycStatus) { return; }
+        ycStatus.textContent = nhGetLang() === 'np' ? np : en;
         ycStatus.style.display = 'block';
+      };
+
+      // No sheet connected yet: fall back to opening the visitor's email app.
+      if (!NH_YC_ENDPOINT) {
+        var lines = [
+          'Camper name: ' + name,
+          'Age: ' + age,
+          'Gender: ' + (gender || '-'),
+          'Phone: ' + phone,
+          'Email: ' + (email || '-'),
+          'Home church: ' + (group || '-'),
+          'Parent/Guardian name: ' + (guardianName || '-'),
+          'Parent/Guardian phone: ' + (guardianPhone || '-'),
+          'Emergency contact name: ' + emName,
+          'Emergency contact phone: ' + emPhone,
+          'T-shirt size: ' + (tshirt || '-'),
+          'Allergies / medical / dietary notes: ' + (notes || '-')
+        ];
+        var subject = encodeURIComponent('Youth Camp Registration - ' + name);
+        var body = encodeURIComponent(lines.join('\n'));
+        window.location.href = 'mailto:hello@newhope.org.np?subject=' + subject + '&body=' + body;
+        showStatus(
+          'Opening your email app to send your registration to hello@newhope.org.np…',
+          'तपाईंको दर्ता hello@newhope.org.np मा पठाउन इमेल एप खोल्दै…'
+        );
+        return;
       }
+
+      // Save the registration as a new row in the church's Google Sheet.
+      var data = new URLSearchParams();
+      data.append('name', name);
+      data.append('age', age);
+      data.append('gender', gender);
+      data.append('phone', phone);
+      data.append('email', email);
+      data.append('home_church', group);
+      data.append('guardian_name', guardianName);
+      data.append('guardian_phone', guardianPhone);
+      data.append('emergency_name', emName);
+      data.append('emergency_phone', emPhone);
+      data.append('tshirt_size', tshirt);
+      data.append('notes', notes);
+      data.append('consent', 'yes');
+      data.append('website', ycVal('yc-website'));
+
+      var submitBtn = ycForm.querySelector('button[type="submit"]');
+      if (submitBtn) { submitBtn.disabled = true; }
+      showStatus('Sending your registration…', 'तपाईंको दर्ता पठाउँदै…');
+
+      fetch(NH_YC_ENDPOINT, { method: 'POST', body: data })
+        .then(function (res) { return res.json(); })
+        .then(function (json) {
+          if (!json || !json.ok) { throw new Error('not saved'); }
+          ycForm.reset();
+          if (ycGuardianHint) { ycGuardianHint.style.display = 'none'; }
+          showStatus(
+            'Registration received — thank you! Your place is confirmed once the Rs. 1,500 fee is paid: pay in person at your New Hope church, or we will phone you to arrange it.',
+            'दर्ता प्राप्त भयो — धन्यवाद! रु. १,५०० शुल्क बुझाएपछि तपाईंको स्थान पक्का हुनेछ: आफ्नो New Hope चर्चमा प्रत्यक्ष बुझाउनुहोस्, वा हामी तपाईंलाई फोन गर्नेछौं।'
+          );
+        })
+        .catch(function () {
+          showStatus(
+            'Sorry, your registration could not be sent. Please try again, or email hello@newhope.org.np.',
+            'माफ गर्नुहोस्, तपाईंको दर्ता पठाउन सकिएन। कृपया फेरि प्रयास गर्नुहोस्, वा hello@newhope.org.np मा इमेल गर्नुहोस्।'
+          );
+        })
+        .then(function () { if (submitBtn) { submitBtn.disabled = false; } });
     });
 
     // Show a hint (and expect guardian details) once the entered age is under 18.
     var ycAge = document.getElementById('yc-age');
-    var ycGuardianHint = document.getElementById('yc-guardian-hint');
     if (ycAge && ycGuardianHint) {
       var ycUpdateHint = function () {
         var a = parseInt(ycAge.value, 10);
@@ -265,18 +313,59 @@ document.addEventListener('DOMContentLoaded', function () {
             btn.textContent = nhGetLang() === 'np' ? btn.getAttribute('data-np') : btn.getAttribute('data-en');
           }, 1600);
         };
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(text).then(done, done);
-        } else {
+        // Only show "Copied" if the copy actually worked.
+        var legacyCopy = function () {
           var ta = document.createElement('textarea');
           ta.value = text;
           document.body.appendChild(ta);
           ta.select();
-          try { document.execCommand('copy'); } catch (e) { /* ignore */ }
+          var ok = false;
+          try { ok = document.execCommand('copy'); } catch (e) { /* ignore */ }
           document.body.removeChild(ta);
-          done();
+          if (ok) { done(); }
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done, legacyCopy);
+        } else {
+          legacyCopy();
         }
       });
+    });
+  }
+
+  // Scroll reveal: content below the hero fades and rises into place the first
+  // time it scrolls into view; items in the same row follow one another.
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if ('IntersectionObserver' in window && !reduceMotion) {
+    var revealSel = '.card, .group-card, .section-head, .about-section, .church-item, .wrap > h2, .wrap > h3, .wrap > p, .wrap > div, .wrap > form';
+    var revealEls = [];
+    document.querySelectorAll('main > section').forEach(function (sec) {
+      if (sec.querySelector('.hero-in, .marquee')) { return; }
+      sec.querySelectorAll(revealSel).forEach(function (el) {
+        // animate the innermost pieces, not the containers around them
+        if (!el.querySelector(revealSel)) { revealEls.push(el); }
+      });
+    });
+
+    var revealIo = new IntersectionObserver(function (entries) {
+      var shown = entries.filter(function (en) { return en.isIntersecting; });
+      shown.forEach(function (en, i) {
+        var el = en.target;
+        var delay = Math.min(i, 5) * 80;
+        revealIo.unobserve(el);
+        el.style.transitionDelay = delay + 'ms';
+        el.classList.add('in');
+        // hand the element back to its normal styles (hover effects etc.) afterwards
+        setTimeout(function () {
+          el.classList.remove('reveal', 'in');
+          el.style.transitionDelay = '';
+        }, delay + 1000);
+      });
+    }, { threshold: 0.05, rootMargin: '0px 0px -6% 0px' });
+
+    revealEls.forEach(function (el) {
+      el.classList.add('reveal');
+      revealIo.observe(el);
     });
   }
 

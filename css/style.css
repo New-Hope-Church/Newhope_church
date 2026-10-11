@@ -102,6 +102,18 @@ img{ max-width: 100%; display: block; }
   .hero-in > *{ animation: none; opacity: 1; }
 }
 
+/* ---------- scroll reveal ---------- */
+/* script.js adds .reveal to content below the hero, then .in once it scrolls
+   into view. Without JS nothing gets the class, so everything stays visible. */
+
+.reveal{
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.reveal.in{ opacity: 1; transform: none; }
+
 /* ---------- header / nav (black bar, white content) ---------- */
 
 .site-header{
@@ -288,10 +300,16 @@ img{ max-width: 100%; display: block; }
 }
 
 
+.connect-cards{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
 /* ---------- clickable-feel cards (visit / groups / online / events) ---------- */
 #visit, #groups, #online, #events{
   cursor: pointer;
-  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 /* Connect page card hover lift */
@@ -417,12 +435,18 @@ section.tight{ padding: 64px 0; }
   border: 1px solid var(--line);
 }
 
+/* small laptops / tablets in landscape: the full nav is slightly too wide, so tighten it */
+@media (min-width: 901px) and (max-width: 1100px){
+  .nav-links{ gap: 18px; }
+  .nav-right .btn-ghost{ display: none; }
+}
+
 /* ---------- mobile nav ---------- */
 
 @media (max-width: 900px){
   .nav-links{
     position: fixed;
-    inset: 72px 0 0 0;
+    inset: 91px 0 0 0;
     background: var(--paper);
     flex-direction: column;
     align-items: flex-start;
@@ -445,7 +469,11 @@ section.tight{ padding: 64px 0; }
 
 @media (max-width: 560px){
   .wrap{ padding: 0 20px; }
-  .nav{ padding: 16px 20px; }
+  .nav{ padding: 16px 20px; gap: 12px; }
+  .nav-links{ top: 83px; }
+  /* not enough room for it on a phone; Connect in the menu leads to the same page */
+  .nav-right .btn-primary{ display: none; }
+  .connect-cards{ grid-template-columns: 1fr; }
   .footer-grid{ grid-template-columns: 1fr; }
 }
 
@@ -738,9 +766,38 @@ section.tight{ padding: 64px 0; }
   -webkit-user-drag: none;
 }
 
-/* faded photo layer behind the hero text */
-.hero-photo-section{ position: relative; overflow: hidden; }
+/* dark hero: full-colour photos drift behind a dark gradient, text is white */
+.hero-photo-section{ position: relative; overflow: hidden; background: var(--ink); }
 .hero-photo-section > .wrap{ position: relative; z-index: 1; }
+
+/* darker on the left where the text sits, lighter on the right so faces show */
+.hero-photo-section::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0.45) 100%),
+    linear-gradient(90deg, rgba(0,0,0,0.86) 0%, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0.35) 100%);
+}
+
+.hero-photo-section h1{ color: var(--paper); }
+.hero-photo-section .hero-in{ text-shadow: 0 1px 18px rgba(0,0,0,0.45); }
+.hero-photo-section .btn{ text-shadow: none; }
+.hero-photo-section :focus-visible{ outline-color: var(--paper); }
+
+.hero-photo-section .btn-primary{ background: var(--paper); color: var(--ink); }
+.hero-photo-section .btn-primary:hover{ background: var(--paper-soft); opacity: 1; }
+.hero-photo-section .btn-ghost{ border-color: var(--paper); color: var(--paper); }
+.hero-photo-section .btn-ghost:hover{ background: var(--paper); color: var(--ink); }
+
+/* on phones the text spans the full width, so darken evenly */
+@media (max-width: 900px){
+  .hero-photo-section::after{
+    background: linear-gradient(180deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.8) 100%);
+  }
+}
 
 .marquee-bg{
   position: absolute;
@@ -748,7 +805,6 @@ section.tight{ padding: 64px 0; }
   height: 100%;
   border-radius: 0;
   background: none;
-  opacity: 0.16;
   pointer-events: none;
   z-index: 0;
 }
