@@ -42,6 +42,17 @@ function nhApplyLanguage(lang) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+  // Links are written without ".html" (connect, about, …) because the live
+  // server adds it. Opened straight from the computer, or through a simple
+  // local server, nothing does — so put it back in those cases only.
+  if (location.protocol === 'file:' || /^(localhost|127\.0\.0\.1)$/.test(location.hostname)) {
+    document.querySelectorAll('a[href]').forEach(function (a) {
+      var m = /^(\.\/|[a-z][a-z-]*)?(#.*)?$/.exec(a.getAttribute('href'));
+      if (!m || !m[1]) { return; }
+      a.setAttribute('href', (m[1] === './' ? 'index' : m[1]) + '.html' + (m[2] || ''));
+    });
+  }
+
   var toggle = document.querySelector('.nav-toggle');
   var links = document.querySelector('.nav-links');
 
