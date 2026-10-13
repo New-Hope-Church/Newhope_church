@@ -33,9 +33,10 @@
 
 // ---- Settings ---------------------------------------------------------------
 
-// Leave empty when this script was opened from the sheet (Extensions > Apps
-// Script). Otherwise paste the sheet's ID (the long part of its URL).
-var SPREADSHEET_ID = '';
+// The spreadsheet everything is saved to (the long part of its URL). The
+// account that deploys this script needs edit access to it. Leave empty to
+// use the sheet this script was opened from (Extensions > Apps Script).
+var SPREADSHEET_ID = '1g2fsaEzzjMD-0O7z9SrJSyWFsLPmIgGJeIKc6LZ096Y';
 
 // Registrations are written to this tab. It is created on first use, so rows
 // from the earlier version of the form are left untouched in their own tab.
