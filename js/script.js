@@ -649,7 +649,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var revealSel = '.card, .group-card, .section-head, .about-section, .church-item, .wrap > h2, .wrap > h3, .wrap > p, .wrap > div, .wrap > form';
     var revealEls = [];
     document.querySelectorAll('main > section').forEach(function (sec) {
-      if (sec.querySelector('.hero-in, .marquee')) { return; }
+      if (sec.querySelector('.hero-in, .marquee') || sec.hasAttribute('data-no-reveal')) { return; }
       sec.querySelectorAll(revealSel).forEach(function (el) {
         // animate the innermost pieces, not the containers around them
         if (!el.querySelector(revealSel)) { revealEls.push(el); }

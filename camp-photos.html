@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title data-en="Rooted in Christ — Youth Camp 2026 Photos" data-np="Rooted in Christ — Youth Camp २०२६ फोटोहरू">Rooted in Christ — Youth Camp 2026 Photos</title>
+<link rel="icon" type="image/png" href="pictures/logo-icon.png">
+<link rel="stylesheet" href="css/style.css?v=2026.10.19">
+<link rel="stylesheet" href="css/camp-photos.css?v=2026.10.19">
+</head>
+<body class="cp-camper" data-photos="camper">
+
+<header class="site-header">
+  <nav class="nav">
+    <a class="logo" href="./">
+      <img src="pictures/black-border.png" alt="New Hope Church Logo" class="mark" />
+      New Hope
+    </a>
+    <div class="nav-right">
+      <button class="lang-toggle" aria-label="नेपाली भाषामा हेर्नुहोस्">नेपाली</button>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ===== Home: what the QR code opens ===== -->
+  <section class="cp-home" id="cp-home" data-no-reveal>
+
+    <!-- Approved photos, sliding by (the camp banner until there are some) -->
+    <button class="cp-show" type="button" id="cp-show" aria-label="Open camp photos">
+      <span class="cp-show-slide on banner" style="background-image:url('pictures/youthcamp-banner-web.jpg')"></span>
+      <span class="cp-show-slide"></span>
+      <span class="cp-show-chip cp-hidden" id="cp-show-chip"></span>
+    </button>
+
+    <div class="cp-home-main">
+      <span class="cp-kicker" data-en="New Hope Youth Camp 2026" data-np="New Hope Youth Camp २०२६">New Hope Youth Camp 2026</span>
+      <h1 class="display cp-title">Rooted in Christ</h1>
+      <p class="cp-meta" id="cp-meta" data-en="9–11 November · Colossians 2:7" data-np="९–११ नोभेम्बर · कलस्सी २:७">9–11 November · Colossians 2:7</p>
+
+      <div class="cp-actions">
+        <button class="cp-upload-btn" type="button" id="cp-camera-btn">
+          <span aria-hidden="true">📸</span>
+          <span data-en="Take a photo" data-np="फोटो खिच्नुहोस्">Take a photo</span>
+        </button>
+        <div class="cp-actions-row">
+          <button class="cp-soft-btn" type="button" id="cp-gallery-btn">
+            <span aria-hidden="true">🖼️</span>
+            <span data-en="From gallery" data-np="ग्यालरीबाट">From gallery</span>
+          </button>
+          <a class="cp-soft-btn" href="#memories" id="cp-memories-btn">
+            <span aria-hidden="true">✨</span>
+            <span data-en="Memories" data-np="सम्झनाहरू">Memories</span>
+            <span class="cp-badge cp-hidden" id="cp-mem-badge"></span>
+          </a>
+        </div>
+      </div>
+      <input id="cp-camera" type="file" accept="image/*" capture="environment" hidden>
+      <input id="cp-file" type="file" accept="image/*" multiple hidden>
+
+      <div class="cp-sending cp-hidden" id="cp-sending">
+        <div class="cp-previews" id="cp-previews"></div>
+        <div class="cp-progress"><span></span></div>
+      </div>
+      <p class="cp-msg" id="cp-msg" aria-live="polite"></p>
+
+      <!-- Today's challenge(s); tapping one opens the camera for it -->
+      <div class="cp-today cp-hidden" id="cp-today">
+        <span class="cp-today-label" data-en="📣 Today's challenge" data-np="📣 आजको चुनौती">📣 Today's challenge</span>
+        <div class="cp-today-list" id="cp-challenges"></div>
+        <p class="cp-today-hint" data-en="Tap a challenge to take a photo for it." data-np="चुनौतीको फोटो खिच्न त्यसलाई थिच्नुहोस्।">Tap a challenge to take a photo for it.</p>
+      </div>
+
+      <!-- Optional: who is sending (remembered on this phone) -->
+      <details class="cp-about-me" id="cp-about-me">
+        <summary>
+          <span data-en="Your name & team (optional)" data-np="तपाईंको नाम र टिम (ऐच्छिक)">Your name & team (optional)</span>
+          <span class="cp-me-summary" id="cp-me-summary"></span>
+        </summary>
+        <div class="cp-field" style="margin-top:14px;">
+          <label for="cp-name" data-en="Your name" data-np="तपाईंको नाम">Your name</label>
+          <input id="cp-name" type="text" maxlength="30" autocomplete="given-name">
+        </div>
+        <div class="cp-field" style="margin-bottom:0;">
+          <label data-en="Your team" data-np="तपाईंको टिम">Your team</label>
+        </div>
+        <div class="cp-teams" id="cp-team-picker"></div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ===== Memories: the approved photos ===== -->
+  <section class="cp-memories cp-hidden" id="cp-memories" data-no-reveal>
+    <div class="wrap">
+      <div class="cp-mem-top">
+        <a class="cp-back" href="#" id="cp-back" aria-label="Back">←</a>
+        <div>
+          <h2 id="cp-mem-title" data-en="Memories" data-np="सम्झनाहरू">Memories</h2>
+          <p class="cp-mem-count" id="cp-mem-count"></p>
+        </div>
+        <a class="cp-drive-link cp-hidden" id="cp-drive-link" href="#" target="_blank" rel="noopener" data-en="Google Drive ↗" data-np="Google Drive ↗">Google Drive ↗</a>
+      </div>
+      <nav class="cp-mem-tabs" id="cp-mem-tabs">
+        <a href="#memories" data-tab="all" data-en="All photos" data-np="सबै फोटो">All photos</a>
+        <a href="#memories/teams" data-tab="teams" data-en="Teams" data-np="टिमहरू">Teams</a>
+        <a href="#memories/challenges" data-tab="challenges" data-en="Challenges" data-np="चुनौतीहरू">Challenges</a>
+      </nav>
+      <div class="cp-albums cp-hidden" id="cp-albums"></div>
+      <div class="cp-grid" id="cp-grid"></div>
+      <p class="cp-empty cp-hidden" id="cp-empty"></p>
+    </div>
+  </section>
+
+</main>
+
+<!-- Full-screen photo viewer -->
+<dialog class="cp-viewer" id="cp-viewer" aria-label="Photo">
+  <div class="cp-viewer-in">
+    <div class="cp-viewer-top">
+      <div class="cp-viewer-meta" id="cp-viewer-meta"></div>
+      <button class="cp-close" type="button" id="cp-viewer-close" aria-label="Close">×</button>
+    </div>
+    <div class="cp-viewer-stage" id="cp-viewer-stage">
+      <img id="cp-viewer-img" alt="">
+      <span class="cp-heart-burst" id="cp-heart-burst" aria-hidden="true">❤️</span>
+      <button class="cp-viewer-nav prev" type="button" id="cp-viewer-prev" aria-label="Previous photo">‹</button>
+      <button class="cp-viewer-nav next" type="button" id="cp-viewer-next" aria-label="Next photo">›</button>
+    </div>
+    <div class="cp-viewer-bottom">
+      <button class="cp-like" type="button" id="cp-like" aria-pressed="false">
+        <span class="cp-like-heart" aria-hidden="true"></span>
+        <span id="cp-like-count"></span>
+      </button>
+      <p class="cp-viewer-cap" id="cp-viewer-cap"></p>
+      <a class="cp-viewer-dl" id="cp-viewer-download" href="#" target="_blank" rel="noopener" data-en="Download" data-np="डाउनलोड">Download</a>
+    </div>
+  </div>
+</dialog>
+
+<script src="js/script.js?v=2026.10.19"></script>
+<script src="js/camp-photos.js?v=2026.10.19"></script>
+</body>
+</html>

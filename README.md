@@ -13,6 +13,7 @@ The live design can be viewed here, "https://www.figma.com/design/ekGGhbOf0Lnov2
 - Small groups info
 - Testimonies
 - Youth camp registration form
+- Youth camp photos ("Rooted in Christ"): campers scan a QR code to take and send photos (no login); leaders move the best ones from the Drive inbox to the camp album; campers browse them on the page (all photos, by team, by challenge) and like them, and they play on the projector (`camp-photos`, `camp-photos-live`, `camp-photos-poster`; setup steps are at the top of `apps-script/camp-photos.gs`)
 
 ## Tech Stack
 - HTML5

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Camp Photos Live — New Hope Church</title>
+<link rel="icon" type="image/png" href="pictures/logo-icon.png">
+<link rel="stylesheet" href="css/style.css?v=2026.10.19">
+<link rel="stylesheet" href="css/camp-photos.css?v=2026.10.19">
+</head>
+<body class="cp-live" data-photos="live">
+
+<div class="cp-live-stage" id="cp-stage">
+  <div class="cp-live-slide"><div class="bg"></div><img alt=""></div>
+  <div class="cp-live-slide"><div class="bg"></div><img alt=""></div>
+</div>
+
+<div class="cp-live-caption" id="cp-caption"></div>
+
+<div class="cp-live-join" id="cp-join">
+  <div class="cp-live-join-qr" id="cp-join-qr"></div>
+  <div class="cp-live-join-text"><b>Add your photos!</b>Scan with your phone camera</div>
+</div>
+
+<!-- Shown between photos now and then -->
+<div class="cp-live-card" id="cp-card"></div>
+
+<div class="cp-live-empty cp-hidden" id="cp-empty">The camp album is empty for now. Scan the code and send the first photo!</div>
+
+<p class="cp-live-error cp-hidden" id="cp-error"></p>
+
+<div class="cp-live-tip">F: full screen · →: next photo · C: today's challenge</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="js/script.js?v=2026.10.19"></script>
+<script src="js/camp-photos.js?v=2026.10.19"></script>
+</body>
+</html>
