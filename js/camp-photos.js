@@ -9,7 +9,7 @@
 // Drive, and leaders move the ones they choose into the camp album folder.
 // The Google side is apps-script/camp-photos.gs. Paste its web app URL (ends
 // in /exec) between the quotes below.
-var NH_PHOTOS_ENDPOINT = '';
+var NH_PHOTOS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyXw2KyPmns20S1QEDpWlvJORPI-tdTfCtQ982cW1_OejRb41bUCqH8a_13WnnNuj6k/exec';
 
 (function () {
   var ME_KEY = 'nhCampMe';
