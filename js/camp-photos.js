@@ -199,7 +199,7 @@ var NH_PHOTOS_ENDPOINT = '';
         renderHome();
         renderMemories();
         if (viewer.open) { renderViewer(); }
-        startShow();
+        renderReel();
       }, function () {
         if (!album) { renderMemories(); }
       });
@@ -236,13 +236,12 @@ var NH_PHOTOS_ENDPOINT = '';
 
     function likeLabel(photo) {
       var n = likeCount(photo);
-      return n ? '❤️ ' + n : '';
+      return n ? '♥︎ ' + n : '';
     }
 
     // -- Home
 
     function renderHome() {
-      document.body.style.setProperty('--team', me.team && info ? teamColour(info.teams, me.team) : '');
       renderMe();
       if (info) {
         var day = info.day;
@@ -291,54 +290,65 @@ var NH_PHOTOS_ENDPOINT = '';
       $('cp-me-summary').textContent = [me.name, me.team && t('Team ', 'टिम ') + me.team].filter(Boolean).join(' · ');
     }
 
-    // Approved photos slide by on the home screen, newest first.
-    var showSlides = document.querySelectorAll('.cp-show-slide');
-    var showCurrent = 0, showIndex = -1, showTimer = null, showPhoto = null;
+    // Approved photos slide by on the home screen as tall cards, newest
+    // first. Only rebuilt when the photos change, so the motion doesn't jump.
+    var reelKey = '';
+    var reel = $('cp-reel');
 
-    function startShow() {
-      if (showTimer || !album || !album.photos.length) { return; }
-      nextShow();
+    function renderReel() {
+      var list = album ? album.photos.slice(0, 24) : [];
+      var key = list.map(function (p) { return p.f + ':' + likeCount(p); }).join() + '|' +
+        (typeof nhGetLang === 'function' ? nhGetLang() : '');
+      if (key === reelKey) { return; }
+      reelKey = key;
+
+      var track = $('cp-reel-track');
+      track.innerHTML = '';
+      $('cp-show').classList.toggle('has-photos', list.length > 0);
+      hide($('cp-show-empty'), list.length > 0);
+      hide(reel, !list.length);
+      if (!list.length) { return; }
+
+      // Enough cards to fill the row even with only a few photos.
+      var set = list;
+      while (set.length < 6) { set = set.concat(list); }
+      var ids = list.map(function (p) { return p.f; });
+      [false, true].forEach(function (copy) {
+        set.forEach(function (photo) {
+          var card = el('button', 'cp-card');
+          card.type = 'button';
+          if (copy) { card.setAttribute('aria-hidden', 'true'); card.tabIndex = -1; }
+          var img = el('img');
+          img.alt = '';
+          setPhoto(img, photo.f, 800);
+          card.appendChild(img);
+          var title = photo.c || (photo.t ? t('Team ', 'टिम ') + photo.t : '') || photo.n || t('Youth Camp 2026', 'Youth Camp २०२६');
+          card.appendChild(el('span', 'cp-card-title', title));
+          var pill = el('span', 'cp-card-pill');
+          var likes = likeCount(photo);
+          if (likes) {
+            pill.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-8-4.9-8-11A4.5 4.5 0 0 1 12 6.6a4.5 4.5 0 0 1 8 2.9c0 6.1-8 11-8 11z"/></svg>';
+            pill.appendChild(document.createTextNode(likes + ' · '));
+          }
+          pill.appendChild(document.createTextNode(t('See photo', 'फोटो हेर्नुहोस्')));
+          card.appendChild(pill);
+          card.setAttribute('aria-label', [title, photo.n].filter(Boolean).join(' · '));
+          card.addEventListener('click', function () { openViewer(ids, photo.f); });
+          track.appendChild(card);
+        });
+      });
+      // About 4 seconds per card, whatever the number of photos.
+      track.style.setProperty('--dur', (set.length * 4) + 's');
     }
 
-    function nextShow() {
-      var list = album.photos.slice(0, 40);
-      if (!list.length) { showTimer = null; return; }
-      showIndex = (showIndex + 1) % list.length;
-      var photo = list[showIndex];
-      var img = new Image();
-      var shown = function () {
-        showCurrent = 1 - showCurrent;
-        var slide = showSlides[showCurrent];
-        slide.classList.remove('banner', 'on');
-        slide.style.backgroundImage = 'url("' + img.src + '")';
-        void slide.offsetWidth;
-        slide.classList.add('on');
-        showSlides[1 - showCurrent].classList.remove('on');
-        showPhoto = photo;
-        var chip = $('cp-show-chip');
-        chip.innerHTML = '';
-        if (photo.t) {
-          var dot = el('span', 'cp-team-dot');
-          dot.style.setProperty('--team', teamColour(album.teams, photo.t));
-          chip.appendChild(dot);
-        }
-        chip.appendChild(document.createTextNode([photo.n, photo.c && '🏆 ' + photo.c].filter(Boolean).join(' · ') || t('Youth Camp 2026', 'Youth Camp २०२६')));
-        hide(chip, false);
-        showTimer = setTimeout(nextShow, 5000);
-      };
-      img.onload = shown;
-      img.onerror = function () {
-        if (img.src.indexOf('lh3.') === -1) { img.src = fallbackPhotoUrl(photo.f, 1200); } else { showTimer = setTimeout(nextShow, 500); }
-      };
-      img.src = photoUrl(photo.f, 1200);
-    }
-
-    $('cp-show').addEventListener('click', function () {
-      if (showPhoto && album) {
-        openViewer(album.photos.map(function (p) { return p.f; }), showPhoto.f);
-      } else {
-        location.hash = 'memories';
-      }
+    // On a phone, a finger on the reel holds it still for a moment.
+    var holdTimer = null;
+    reel.addEventListener('touchstart', function () {
+      clearTimeout(holdTimer);
+      reel.classList.add('held');
+    }, { passive: true });
+    reel.addEventListener('touchend', function () {
+      holdTimer = setTimeout(function () { reel.classList.remove('held'); }, 2500);
     });
 
     // -- Memories
@@ -528,7 +538,7 @@ var NH_PHOTOS_ENDPOINT = '';
       if (photo.n) { meta.appendChild(el('strong', '', photo.n)); }
       if (photo.d >= 1 && photo.d <= album.days) { meta.appendChild(el('span', '', t('Day ' + photo.d, 'दिन ' + npDigits(photo.d)))); }
 
-      $('cp-viewer-cap').textContent = photo.c ? '🏆 ' + photo.c : '';
+      $('cp-viewer-cap').textContent = photo.c ? '★︎ ' + photo.c : '';
       var likeBtn = $('cp-like');
       likeBtn.setAttribute('aria-pressed', String(!!liked[photo.f]));
       likeBtn.setAttribute('aria-label', liked[photo.f] ? t('Unlike', 'लाइक हटाउनुहोस्') : t('Like', 'लाइक गर्नुहोस्'));
@@ -654,18 +664,17 @@ var NH_PHOTOS_ENDPOINT = '';
           say(t('Sorry, that could not be sent. Check your internet and try again.', 'माफ गर्नुहोस्, पठाउन सकिएन। आफ्नो इन्टरनेट जाँचेर फेरि प्रयास गर्नुहोस्।'), 'err');
           return;
         }
-        var colours = ((info && info.teams) || []).map(function (x) { return x.colour; }).concat(['#E2701F', '#2F6B4F']);
-        confetti(colours);
+        confetti(['#000', '#444', '#888', '#ccc']);
         var text = sent === 1
-          ? t('Sent! 🎉 Leaders will pick the best photos for Memories.', 'पठाइयो! 🎉 लिडरहरूले राम्रा फोटोहरू सम्झनाहरूका लागि छान्नुहुनेछ।')
-          : t(sent + ' photos sent! 🎉 Leaders will pick the best ones for Memories.', npDigits(sent) + ' वटा फोटो पठाइयो! 🎉 लिडरहरूले राम्रा फोटोहरू सम्झनाहरूका लागि छान्नुहुनेछ।');
+          ? t('Sent! Leaders will pick the best photos for Memories.', 'पठाइयो! लिडरहरूले राम्रा फोटोहरू सम्झनाहरूका लागि छान्नुहुनेछ।')
+          : t(sent + ' photos sent! Leaders will pick the best ones for Memories.', npDigits(sent) + ' वटा फोटो पठाइयो! लिडरहरूले राम्रा फोटोहरू सम्झनाहरूका लागि छान्नुहुनेछ।');
         if (failed) {
           text += ' ' + t(failed + ' could not be sent — please try those again.', npDigits(failed) + ' वटा पठाउन सकिएन — कृपया फेरि प्रयास गर्नुहोस्।');
         }
         if (all.length > MAX_FILES) {
           text += ' ' + t('(Up to ' + MAX_FILES + ' at a time — send the rest next.)', '(एक पटकमा बढीमा ' + npDigits(MAX_FILES) + ' वटा — बाँकी फेरि पठाउनुहोस्।)');
         }
-        if (forChallenge) { text = '🏆 ' + forChallenge + ' — ' + text; }
+        if (forChallenge) { text = '★︎ ' + forChallenge + ' — ' + text; }
         say(text, failed ? 'err' : 'ok');
         if (challenge === forChallenge) { challenge = ''; renderHome(); }
         setTimeout(function () { if (!sending) { hide($('cp-sending'), true); } }, 4000);
@@ -677,7 +686,7 @@ var NH_PHOTOS_ENDPOINT = '';
 
     document.querySelectorAll('.lang-toggle').forEach(function (b) {
       b.addEventListener('click', function () {
-        setTimeout(function () { renderHome(); renderMemories(); if (viewer.open) { renderViewer(); } }, 0);
+        setTimeout(function () { renderHome(); renderReel(); renderMemories(); if (viewer.open) { renderViewer(); } }, 0);
       });
     });
     window.addEventListener('hashchange', show);
@@ -808,14 +817,14 @@ var NH_PHOTOS_ENDPOINT = '';
         if (photo.n) { who.appendChild(document.createTextNode(photo.n)); }
         box.appendChild(who);
       }
-      if (photo.c) { box.appendChild(el('div', 'cp-live-challenge', '🏆 ' + photo.c)); }
-      if (photo.l) { box.appendChild(el('div', 'cp-live-likes', '❤️ ' + photo.l)); }
+      if (photo.c) { box.appendChild(el('div', 'cp-live-challenge', '★︎ ' + photo.c)); }
+      if (photo.l) { box.appendChild(el('div', 'cp-live-likes', '♥︎ ' + photo.l)); }
     }
 
     function showChallengeCard() {
       if (!challenges.length) { return false; }
       cardEl.innerHTML = '';
-      cardEl.appendChild(el('span', 'label', '📣 Today\'s challenge'));
+      cardEl.appendChild(el('span', 'label', 'Today\'s challenge'));
       cardEl.appendChild(el('h2', '', challenges[0]));
       if (challenges.length > 1) {
         var more = el('div', 'more');
