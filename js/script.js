@@ -239,12 +239,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
       var subject = encodeURIComponent('Message from ' + name + ' via New Hope website');
       var body = encodeURIComponent(message + '\n\n— ' + name + ' (' + email + ')');
-      window.location.href = 'mailto:newhopekavre@gmail.com?subject=' + subject + '&body=' + body;
+      window.location.href = 'mailto:info@newhopenepal.org?subject=' + subject + '&body=' + body;
 
       if (status) {
         status.textContent = lang === 'np'
-          ? 'newhopekavre@gmail.com मा यो पठाउन तपाईंको इमेल एप खोल्दै…'
-          : 'Opening your email app to send this to newhopekavre@gmail.com…';
+          ? 'info@newhopenepal.org मा यो पठाउन तपाईंको इमेल एप खोल्दै…'
+          : 'Opening your email app to send this to info@newhopenepal.org…';
         status.style.display = 'block';
       }
     });
@@ -423,8 +423,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var ycSendFailed = function () {
       showStatus(
-        'Sorry, that could not be sent. Please try again, or email newhopekavre@gmail.com.',
-        'माफ गर्नुहोस्, पठाउन सकिएन। कृपया फेरि प्रयास गर्नुहोस्, वा newhopekavre@gmail.com मा इमेल गर्नुहोस्।'
+        'Sorry, that could not be sent. Please try again, or email info@newhopenepal.org.',
+        'माफ गर्नुहोस्, पठाउन सकिएन। कृपया फेरि प्रयास गर्नुहोस्, वा info@newhopenepal.org मा इमेल गर्नुहोस्।'
       );
     };
 
@@ -630,8 +630,8 @@ document.addEventListener('DOMContentLoaded', function () {
             }
           })
           .catch(function () {
-            say('Sorry, that could not be sent. Please try again, or email newhopekavre@gmail.com.',
-              'माफ गर्नुहोस्, पठाउन सकिएन। कृपया फेरि प्रयास गर्नुहोस्, वा newhopekavre@gmail.com मा इमेल गर्नुहोस्।');
+            say('Sorry, that could not be sent. Please try again, or email info@newhopenepal.org.',
+              'माफ गर्नुहोस्, पठाउन सकिएन। कृपया फेरि प्रयास गर्नुहोस्, वा info@newhopenepal.org मा इमेल गर्नुहोस्।');
           })
           .then(function () { giveBtn.disabled = false; });
       });
