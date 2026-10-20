@@ -41,17 +41,46 @@ function nhApplyLanguage(lang) {
   });
 }
 
+// Links are written without ".html" (connect, about, …) because the live
+// server adds it. Opened straight from the computer, or through a simple
+// local server, nothing does — so put it back in those cases only.
+var NH_IS_LOCAL = location.protocol === 'file:' || /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+
+function nhFixLocalLinks(root) {
+  if (!NH_IS_LOCAL) { return; }
+  root.querySelectorAll('a[href]').forEach(function (a) {
+    var m = /^(\.\/|[a-z][a-z-]*)?(#.*)?$/.exec(a.getAttribute('href'));
+    if (!m || !m[1]) { return; }
+    a.setAttribute('href', (m[1] === './' ? 'index' : m[1]) + '.html' + (m[2] || ''));
+  });
+}
+
+// The footer is kept in one place: index.html. Other pages only have an empty
+// <footer class="site-footer"></footer>, which is filled with the home page's
+// footer here, so editing the footer in index.html updates the whole site.
+// (Opened straight from the computer, the browser blocks this fetch, so those
+// pages show no footer until viewed on the live site or a local server.)
+function nhLoadSharedFooter() {
+  var footer = document.querySelector('footer.site-footer');
+  if (!footer || !window.fetch || !window.DOMParser) { return; }
+  if (/(^|\/)(index(\.html)?)?$/.test(location.pathname)) { return; }
+
+  fetch(NH_IS_LOCAL ? 'index.html' : './')
+    .then(function (res) { return res.ok ? res.text() : Promise.reject(res.status); })
+    .then(function (html) {
+      var shared = new DOMParser().parseFromString(html, 'text/html').querySelector('footer.site-footer');
+      if (!shared) { return; }
+      var fresh = document.importNode(shared, true);
+      footer.replaceWith(fresh);
+      nhFixLocalLinks(fresh);
+      nhApplyLanguage(nhGetLang());
+    })
+    .catch(function () { /* keep this page's own footer */ });
+}
+
 document.addEventListener('DOMContentLoaded', function () {
-  // Links are written without ".html" (connect, about, …) because the live
-  // server adds it. Opened straight from the computer, or through a simple
-  // local server, nothing does — so put it back in those cases only.
-  if (location.protocol === 'file:' || /^(localhost|127\.0\.0\.1)$/.test(location.hostname)) {
-    document.querySelectorAll('a[href]').forEach(function (a) {
-      var m = /^(\.\/|[a-z][a-z-]*)?(#.*)?$/.exec(a.getAttribute('href'));
-      if (!m || !m[1]) { return; }
-      a.setAttribute('href', (m[1] === './' ? 'index' : m[1]) + '.html' + (m[2] || ''));
-    });
-  }
+  nhFixLocalLinks(document);
+  nhLoadSharedFooter();
 
   var toggle = document.querySelector('.nav-toggle');
   var links = document.querySelector('.nav-links');
