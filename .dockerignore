@@ -1,0 +1,8 @@
+.git
+.gitignore
+.vscode
+.DS_Store
+Dockerfile
+docker-compose.yml
+README.md
+apps-script
