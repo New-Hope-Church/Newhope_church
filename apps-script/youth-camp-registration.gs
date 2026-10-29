@@ -48,7 +48,7 @@ var SCREENSHOT_FOLDER = 'Youth Camp payment screenshots';
 // Drive file ID of the payment QR image. Upload the QR image to Drive, open it,
 // and copy the ID from its link (.../file/d/THIS_PART/view).
 // Leave empty to send the QR by hand instead.
-var QR_FILE_ID = '1T9X1s7LcyyPPPMEE21LZqBWiyQbVRHvY';
+var QR_FILE_ID = '1u7ZR7ENomutUv_IUFwrTHTEFMFKIalAw';
 
 // Used in the wording of the email.
 var CAMP_NAME = 'New Hope Youth Camp 2026';

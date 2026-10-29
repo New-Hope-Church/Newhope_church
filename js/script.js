@@ -259,7 +259,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // The matching Apps Script is in apps-script/youth-camp-registration.gs.
   // Paste the web app URL (ends in /exec) between the quotes below. The Give
   // page's forms post to the same address.
-  var NH_FORMS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyl0BKUZz51uL5LpYmp-CnjN9zsqAX1nzhUzOD8lQJRDD_rSSCfLtHQMlKZUBLJ7ppX/exec';
+  var NH_FORMS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyyz5Ew0HDUalPPuBDm3DIiGdeIqeQB1sBm-lcow7-eJtFc1zOEE4mjwtgjzSJRa6oY/exec';
   var NH_YC_DRAFT_KEY = 'nhYouthCampDraft';
   var ycForm = document.getElementById('youth-camp-form');
   var ycStatus = document.getElementById('yc-status');
