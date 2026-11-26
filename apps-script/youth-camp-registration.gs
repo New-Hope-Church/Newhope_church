@@ -4,8 +4,8 @@
  * This is the Google side of the Youth Camp registration form
  * (youth-camp-register.html) and of the Bank Transfer / Digital Wallets forms
  * on the Give page (give.html). It is NOT loaded by the website; it has to be
- * pasted into the Apps Script project that the forms post to (the /exec URL in
- * js/script.js).
+ * pasted into the Apps Script project that the forms post to (formsEndpoint in
+ * js/config.js).
  *
  * Give page (form = "giving"): saves the person's name and email in the
  *   "Giving requests" tab and emails them the church's bank details (Bank

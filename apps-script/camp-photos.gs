@@ -8,8 +8,8 @@
  *   camp-photos-live.html    the projector slideshow of the camp album
  *   camp-photos-poster.html  printable QR poster
  * It is NOT loaded by the website; it is pasted into its own Apps Script
- * project, and the pages post to its /exec URL (NH_PHOTOS_ENDPOINT in
- * js/camp-photos.js). It is kept apart from the registration script on
+ * project, and the pages post to its /exec URL (photosEndpoint in
+ * js/config.js). It is kept apart from the registration script on
  * purpose, so a problem here can never stop camp registrations.
  *
  * How it works (no logins anywhere):
@@ -33,7 +33,7 @@
  *   3. Deploy > New deployment > type "Web app". Execute as: Me. Who has
  *      access: Anyone. Deploy, approve the permissions (Sheets and Drive),
  *      and copy the web app URL (ends in /exec).
- *   4. Paste that URL into NH_PHOTOS_ENDPOINT at the top of js/camp-photos.js.
+ *   4. Paste that URL into photosEndpoint in js/config.js.
  *   5. Open the camper page once (or the /exec URL) so the two Drive folders
  *      and the sheet tabs are created.
  *   6. For leaders who use their own Gmail: in Google Drive, share BOTH

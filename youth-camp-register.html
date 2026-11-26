@@ -17,7 +17,7 @@
 <meta property="og:image:alt" content="The New Hope Church family gathered in front of the church building">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="pictures/logo-icon.png">
-<link rel="stylesheet" href="css/style.css?v=2026.11.26.1">
+<link rel="stylesheet" href="css/style.css?v=2026.11.26.2">
 <style>
   .form-row{ display:flex; flex-direction:column; gap:6px; margin-bottom:18px; }
   .form-row label{ font-size:14px; font-weight:600; }
@@ -41,31 +41,9 @@
   @media (max-width:560px){ .form-row-pair{ grid-template-columns:1fr; } }
 </style>
 </head>
-<body>
+<body data-nav="events">
 
-<header class="site-header">
-  <nav class="nav">
-    <a class="logo" href="./">
-      <img src="pictures/black-border.png" alt="New Hope Church Logo" class="mark" />
-      New Hope
-    </a>
-    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-    <ul class="nav-links">
-      <li><a href="connect" data-en="Connect" data-np="जोडिनुहोस्">Connect</a></li>
-      <li><a href="groups" data-en="Groups" data-np="समूहहरू">Groups</a></li>
-      <li><a href="events" class="active" data-en="Events" data-np="कार्यक्रमहरू">Events</a></li>
-      <li><a href="about" data-en="About Us" data-np="हाम्रो बारेमा">About Us</a></li>
-      <li><a href="give" data-en="Give" data-np="भेटी">Give</a></li>
-    </ul>
-    <div class="nav-right">
-      <button class="lang-toggle" aria-label="नेपाली भाषामा हेर्नुहोस्">नेपाली</button>
-      <a class="btn btn-ghost" href="connect#visit-map" data-en="Find us" data-np="हामीलाई भेट्नुहोस्">Find us</a>
-      <a class="btn btn-primary" href="connect" data-en="Contact Us" data-np="सम्पर्क गर्नुहोस्">Contact Us</a>
-    </div>
-  </nav>
-</header>
+<!--# include file="/partials/header.html" -->
 
 <main>
 
@@ -81,7 +59,7 @@
   </section>
 
   <!--Banner image-->
-  <section class="tight" style="padding-top:0;">
+  <section class="tight flush-top">
     <div class="wrap">
       <div class="art-block" style="aspect-ratio:21/9;">
         <img src="pictures/youthcamp-banner.webp" alt="New Hope Youth Camp 2026" style="width:100%; height:100%; object-fit:cover;" />
@@ -90,7 +68,7 @@
   </section>
 
   <!--Quick info-->
-  <section style="padding-top:0;">
+  <section class="flush-top">
     <div class="wrap card-grid">
       <div class="card">
         <span class="tag" data-en="When" data-np="कहिले">When</span>
@@ -111,11 +89,11 @@
   </section>
 
   <!--Details + Registration form-->
-  <section style="background:var(--paper); border-top:1px solid var(--line);">
+  <section class="bg-paper line-top">
     <div class="wrap two-col">
 
       <div>
-        <h2 style="font-size:clamp(26px,3vw,34px);" data-en="Before you register" data-np="दर्ता गर्नुअघि">Before you register</h2>
+        <h2 class="h-section" data-en="Before you register" data-np="दर्ता गर्नुअघि">Before you register</h2>
         <p style="margin-top:14px; color:var(--muted); max-width:46ch;" data-en="A few things to know before you send your registration in." data-np="आफ्नो दर्ता पठाउनुअघि जान्नुपर्ने केही कुराहरू।">
           A few things to know before you send your registration in.
         </p>
@@ -145,7 +123,7 @@
 
       <form id="youth-camp-form">
         <!-- spam trap: real visitors never see or fill this -->
-        <input id="yc-website" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute; left:-9999px;">
+        <input class="hp-field" id="yc-website" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div class="form-row">
           <label for="yc-name" data-en="Participant&#x27;s full name" data-np="सहभागीको पूरा नाम">Participant's full name</label>
           <input id="yc-name" name="name" type="text" placeholder="Full name" required data-en-placeholder="Full name" data-np-placeholder="पूरा नाम">
@@ -240,19 +218,19 @@
           </div>
           <button class="btn btn-primary" type="submit" data-en="Submit registration" data-np="दर्ता पेस गर्नुहोस्">Submit registration</button>
         </div>
-        <p id="yc-status" style="margin-top:12px; font-size:14px; color:var(--muted); display:none;"></p>
+        <p role="status" class="form-status" id="yc-status"></p>
       </form>
     </div>
   </section>
 
   <!--CTA-->
-  <section style="background:var(--ink); color:var(--paper);">
+  <section class="section-dark">
     <div class="wrap">
       <h2 style="font-size:clamp(28px,3.6vw,40px); max-width:22ch; color:var(--paper);" data-en="Questions about Youth Camp? We&#x27;re happy to help." data-np="Youth Campबारे प्रश्न छ? हामी मद्दत गर्न खुसी छौं।">
         Questions about Youth Camp? We're happy to help.
       </h2>
-      <div style="margin-top:28px;">
-        <a class="btn" style="background:var(--paper); color:var(--ink);" href="connect" data-en="Contact us" data-np="सम्पर्क गर्नुहोस्">Contact us</a>
+      <div class="cta-actions">
+        <a class="btn btn-light" href="connect" data-en="Contact us" data-np="सम्पर्क गर्नुहोस्">Contact us</a>
       </div>
     </div>
   </section>
@@ -260,9 +238,10 @@
 </main>
 
 <!--Footer-->
-<!-- Footer is loaded from index.html (see js/script.js) -->
-<footer class="site-footer"></footer>
+<!--# include file="/partials/footer.html" -->
 
-<script src="js/script.js?v=2026.11.26.1"></script>
+<script src="js/config.js?v=2026.11.26.2"></script>
+<script src="js/script.js?v=2026.11.26.2"></script>
+<script src="js/forms.js?v=2026.11.26.2"></script>
 </body>
 </html>

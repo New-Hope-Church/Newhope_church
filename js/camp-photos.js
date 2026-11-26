@@ -7,9 +7,9 @@
 //   poster  camp-photos-poster.html  printable QR poster
 // There are no logins. Photos go to an inbox folder in the church's Google
 // Drive, and leaders move the ones they choose into the camp album folder.
-// The Google side is apps-script/camp-photos.gs. Paste its web app URL (ends
-// in /exec) between the quotes below.
-var NH_PHOTOS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyXw2KyPmns20S1QEDpWlvJORPI-tdTfCtQ982cW1_OejRb41bUCqH8a_13WnnNuj6k/exec';
+// The Google side is apps-script/camp-photos.gs; its web address is in
+// js/config.js, which pages load before this file.
+var NH_PHOTOS_ENDPOINT = NH_CONFIG.photosEndpoint;
 
 (function () {
   var ME_KEY = 'nhCampMe';
@@ -736,7 +736,7 @@ var NH_PHOTOS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyXw2KyPmns20S
       }, function (err) {
         // Keep showing what we have; the next check may work.
         $('cp-error').textContent = err.message === 'not set up'
-          ? 'The photo backend is not set up yet (NH_PHOTOS_ENDPOINT).'
+          ? 'The photo backend is not set up yet (photosEndpoint in js/config.js).'
           : 'Can\'t reach Google Drive right now — trying again…';
         hide($('cp-error'), false);
       });

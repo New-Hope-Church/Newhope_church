@@ -17,33 +17,11 @@
 <meta property="og:image:alt" content="The New Hope Church family gathered in front of the church building">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="pictures/logo-icon.png">
-<link rel="stylesheet" href="css/style.css?v=2026.11.26.1">
+<link rel="stylesheet" href="css/style.css?v=2026.11.26.2">
 </head>
 <body>
 
-<header class="site-header">
-  <nav class="nav">
-    <a class="logo" href="./">
-      <img src="pictures/black-border.png" alt="New Hope Church Logo" class="mark" />
-      New Hope
-    </a>
-    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-    <ul class="nav-links">
-      <li><a href="connect" data-en="Connect" data-np="जोडिनुहोस्">Connect</a></li>
-      <li><a href="groups" class="active" data-en="Groups" data-np="समूहहरू">Groups</a></li>
-      <li><a href="events" data-en="Events" data-np="कार्यक्रमहरू">Events</a></li>
-      <li><a href="about" data-en="About Us" data-np="हाम्रो बारेमा">About Us</a></li>
-      <li><a href="give" data-en="Give" data-np="भेटी">Give</a></li>
-    </ul>
-    <div class="nav-right">
-      <button class="lang-toggle" aria-label="नेपाली भाषामा हेर्नुहोस्">नेपाली</button>
-      <a class="btn btn-ghost" href="connect#visit-map" data-en="Find us" data-np="हामीलाई भेट्नुहोस्">Find us</a>
-      <a class="btn btn-primary" href="connect" data-en="Contact Us" data-np="सम्पर्क गर्नुहोस्">Contact Us</a>
-    </div>
-  </nav>
-</header>
+<!--# include file="/partials/header.html" -->
 
 <main>
   <section class="groups-hero">
@@ -152,8 +130,8 @@
           data-np="कुन समूह तपाईंका लागि सही हो थाहा छैन? शनिबारको संगतिबाट सुरु गर्नुहोस्।">
         Not sure which group is right for you? Start with a Saturday Gathering.
       </h2>
-      <div style="margin-top:28px;">
-        <a class="btn" style="background:var(--paper); color:var(--ink);"
+      <div class="cta-actions">
+        <a class="btn btn-light"
            href="connect#visit-map"
            data-en="Plan your visit"
            data-np="आउने योजना बनाउनुहोस्">Plan your visit</a>
@@ -163,9 +141,8 @@
 
 </main>
 
-<!-- Footer is loaded from index.html (see js/script.js) -->
-<footer class="site-footer"></footer>
+<!--# include file="/partials/footer.html" -->
 
-<script src="js/script.js?v=2026.11.26.1"></script>
+<script src="js/script.js?v=2026.11.26.2"></script>
 </body>
 </html>

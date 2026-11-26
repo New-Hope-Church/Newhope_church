@@ -9,6 +9,7 @@ COPY *.html robots.txt sitemap.xml version.txt /usr/share/nginx/html/
 COPY css /usr/share/nginx/html/css
 COPY js /usr/share/nginx/html/js
 COPY pictures /usr/share/nginx/html/pictures
+COPY partials /usr/share/nginx/html/partials
 
 EXPOSE 80
 

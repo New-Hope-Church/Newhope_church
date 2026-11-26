@@ -20,7 +20,7 @@ for f in *.html; do
 done
 
 # 2. Every local link, image, stylesheet and script on every page exists.
-grep -ohE '(href|src)="[^"]+"' *.html \
+grep -ohE '(href|src)="[^"]+"' *.html partials/*.html \
   | sed -E 's/^(href|src)="//; s/"$//' \
   | grep -vE '^(https?:|mailto:|tel:|#|data:|javascript:)' \
   | sed -E 's/[#?].*$//; s#^\./##' \
@@ -31,12 +31,26 @@ grep -ohE '(href|src)="[^"]+"' *.html \
     done
 [ -f /tmp/nh-check-failed ] && { fail=1; rm -f /tmp/nh-check-failed; }
 
-# 3. Missing pages get the custom 404 page.
+# 3. The shared header and footer (partials/) are inserted into every page,
+#    and the partial files themselves can't be opened directly.
+for f in *.html; do
+  page="${f%.html}"
+  case "$page" in 404|camp-photos*) continue ;; esac
+  [ "$page" = "index" ] && page=""
+  body=$(curl -s "$BASE/$page")
+  echo "$body" | grep -q 'class="site-header"' || bad "page /$page has no header"
+  echo "$body" | grep -q 'class="site-footer"' || bad "page /$page has no footer"
+  echo "$body" | grep -q '<!--# include' && bad "page /$page still has an unprocessed include"
+done
+code=$(status "$BASE/partials/header.html")
+[ "$code" = "404" ] || bad "/partials/header.html can be opened directly (returned $code)"
+
+# 4. Missing pages get the custom 404 page.
 code=$(status "$BASE/no-such-page")
 [ "$code" = "404" ] || bad "missing page returned $code, expected 404"
 curl -s "$BASE/no-such-page" | grep -q 'Page not found' || bad "missing page did not show 404.html"
 
-# 4. Server settings.
+# 5. Server settings.
 headers=$(curl -sI "$BASE/")
 for h in X-Content-Type-Options Referrer-Policy X-Frame-Options; do
   echo "$headers" | grep -qi "^$h:" || bad "header $h missing"

@@ -902,3 +902,27 @@ section.tight{ padding: 64px 0; }
   .marquee-track{ animation: none !important; }
   .marquee{ overflow-x: auto; }
 }
+/* ---------- shared page pieces (were inline styles) ----------
+   Kept at the end of the file so they win over the general rules above,
+   just as the inline styles they replace did. */
+section.flush-top{ padding-top: 0; }
+.bg-paper{ background: var(--paper); }
+.line-top{ border-top: 1px solid var(--line); }
+.line-bottom{ border-bottom: 1px solid var(--line); }
+.section-dark{ background: var(--ink); color: var(--paper); }
+
+h2.h-section{ font-size: clamp(26px, 3vw, 34px); }
+.text-muted-sm{ color: var(--muted); font-size: 15px; }
+.m-0{ margin: 0; }
+
+.btn-row{ display: flex; gap: 16px; margin-top: 32px; flex-wrap: wrap; }
+.cta-actions{ margin-top: 28px; }
+.btn.btn-light, .btn.btn-light:hover{ background: var(--paper); color: var(--ink); }
+
+.connect-card{ text-decoration: none; min-height: 220px; justify-content: flex-end; background: var(--paper); }
+
+/* form messages: hidden until the script shows one; role="status" makes screen readers read them out */
+.form-status{ margin-top: 12px; font-size: 14px; color: var(--muted); display: none; }
+
+/* spam trap: off-screen, so people never see or fill it */
+.hp-field{ position: absolute; left: -9999px; }
