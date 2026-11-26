@@ -19,6 +19,7 @@ The design wireframes are in [Figma](https://www.figma.com/design/ekGGhbOf0Lnov2
 | `camp-photos.html` | Youth Camp photos: campers scan a QR code to send photos (no login), and browse and like the approved ones |
 | `camp-photos-live.html` | Projector slideshow of the camp album |
 | `camp-photos-poster.html` | Printable QR poster for the camp photo page |
+| `404.html` | Shown for any address that doesn't exist |
 
 Pages link to each other without `.html` (`href="events"`); nginx adds it.
 
@@ -32,7 +33,10 @@ js/camp-photos.js      camp photo pages
 pictures/              images used by the site
 pictures/source/       original photos and unused files, kept but never published
 apps-script/           Google Apps Script code behind the forms (not served)
-nginx.conf, Dockerfile the web server
+robots.txt, sitemap.xml  for search engines (update sitemap.xml when you add a page)
+nginx.conf, nginx/     the web server and its security headers
+Dockerfile             builds the image
+.github/               publish and check workflows, monthly update checks
 ```
 
 ## Editing
@@ -42,6 +46,8 @@ nginx.conf, Dockerfile the web server
 - **The menu** is copied into each page, so a menu change has to be made in every page.
 - **Images:** put full-size originals in `pictures/source/`. Put a web copy in `pictures/` (WebP, about 1600 px wide and under 300 KB) and use that in the page. For example:
   `ffmpeg -i pictures/source/photo.jpg -vf scale=1600:-2 -c:v libwebp -quality 78 pictures/photo.webp`
+- **New pages** need a `<meta name="description">`, the `og:` tags and a canonical link in `<head>` (copy them from a similar page), and an entry in `sitemap.xml`.
+- **New top-level files** the site needs (like `robots.txt`) must be added to the `COPY` line in the `Dockerfile`, which only publishes what it lists.
 - **After changing CSS or JS,** raise the number in `version.txt` and in the `?v=` after `style.css`, `script.js` and the camp photo files on every page, so browsers load the new version.
 
 ## Forms (Google Apps Script)
@@ -61,4 +67,8 @@ docker run --rm -p 8080:80 newhope
 
 ## Deployment
 
-Every push to `main` runs `.github/workflows/publish-ghcr.yml`. The workflow builds the Docker image and publishes it to the GitHub Container Registry as `ghcr.io/<owner>/<repo>`, tagged `latest` and with the commit hash. `.dockerignore` keeps `pictures/source/`, `apps-script/` and other non-site files out of the image.
+Every pull request runs `.github/workflows/check.yml`: it builds the image, starts it, and runs `.github/scripts/check-site.sh`. The script checks that every page, link and image works, that missing pages get `404.html`, and that the security headers are set. You can run it yourself against a running container: `bash .github/scripts/check-site.sh http://localhost:8080`.
+
+Every push to `main` runs the same check, then `.github/workflows/publish-ghcr.yml`, which builds the Docker image and publishes it to the GitHub Container Registry as `ghcr.io/<owner>/<repo>`, tagged `latest` and with the commit hash. `.dockerignore` keeps `pictures/source/`, `apps-script/` and other non-site files out of the image.
+
+The security policy (`Content-Security-Policy`) in `nginx/security-headers.conf` is in report-only mode: browsers show what it would block in the developer console but block nothing. Once the live pages show no such reports, it can be switched on (see the comment in that file).

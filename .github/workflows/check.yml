@@ -1,0 +1,27 @@
+name: Check site
+
+# Runs on every pull request, and before every publish (publish-ghcr.yml calls it).
+on:
+  pull_request:
+  workflow_call:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build the image
+        run: docker build -t newhope-check .
+
+      - name: Start the site
+        run: |
+          docker run -d --name site -p 8080:80 newhope-check
+          for i in $(seq 1 20); do curl -fs http://localhost:8080/ > /dev/null && break; sleep 1; done
+
+      - name: Check pages, links and server settings
+        run: bash .github/scripts/check-site.sh http://localhost:8080
