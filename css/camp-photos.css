@@ -15,6 +15,7 @@
 .cp-msg{ font-size: 15px; color: var(--muted); margin: 12px 0 0; min-height: 1.4em; text-align: center; }
 .cp-msg:empty{ display: none; }
 .cp-msg.err{ color: #C62828; }
+:root[data-theme="dark"] .cp-msg.err{ color: #EF6C6C; }
 .cp-msg.ok{ color: var(--ink); font-weight: 600; }
 
 /* Home: photos sliding by + the actions. Side by side on a computer,
@@ -28,14 +29,14 @@
 .cp-show{
   grid-column: 2; grid-row: 1; position: sticky; top: 112px;
   width: 100%; height: min(78vh, 760px);
-  border-radius: 28px; overflow: hidden; background: var(--ink);
+  border-radius: 28px; overflow: hidden; background: var(--bar);
 }
 .cp-show.has-photos{ background: var(--paper-soft); }
 .cp-show-empty{
   position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
-  padding: 24px; color: var(--paper); text-align: center;
+  padding: 24px; color: var(--bar-fg); text-align: center;
 }
-.cp-show-empty b{ font-family: 'Fraunces', serif; font-size: clamp(28px, 4vw, 44px); font-weight: 500; line-height: 1.1; }
+.cp-show-empty b{ font-family: 'Fraunces', 'NH Deva Serif', serif; font-size: clamp(28px, 4vw, 44px); font-weight: 500; line-height: 1.1; }
 .cp-show-empty span{ font-size: 15px; opacity: .65; }
 
 /* The reel: a row of tall photo cards moving left in an endless loop. The
@@ -53,7 +54,7 @@
 .cp-card{
   position: relative; flex: none; height: 100%; aspect-ratio: 3 / 4.3; margin-right: 16px;
   padding: 0; border: 0; cursor: pointer; border-radius: 26px; overflow: hidden;
-  background: #ddd; color: #fff; font: inherit; text-align: center;
+  background: var(--paper-soft); color: #fff; font: inherit; text-align: center;
   box-shadow: 0 18px 40px -22px rgba(0,0,0,.55);
 }
 .cp-card img{ position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
@@ -86,20 +87,20 @@
 /* Today's challenge */
 .cp-today{
   border-radius: 20px; padding: 18px 18px 14px; margin-top: 28px;
-  background: var(--ink); color: var(--paper);
+  background: var(--bar); color: var(--bar-fg);
 }
 .cp-today-label{ font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; opacity: .8; }
 .cp-today-list{ display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
 .cp-challenge{
   display: flex; align-items: center; gap: 12px; width: 100%; text-align: left;
-  font-family: 'Fraunces', serif; font-size: 19px; line-height: 1.25; font-weight: 500;
+  font-family: 'Fraunces', 'NH Deva Serif', serif; font-size: 19px; line-height: 1.25; font-weight: 500;
   padding: 12px 14px; border-radius: 14px; cursor: pointer;
-  border: 1.5px solid rgba(255,255,255,.3); background: transparent; color: var(--paper);
+  border: 1.5px solid rgba(255,255,255,.3); background: transparent; color: var(--bar-fg);
   transition: background .15s, border-color .15s;
 }
 .cp-challenge::before{ content: ""; flex: none; width: 18px; height: 18px; border-radius: 50%; border: 2px solid rgba(255,255,255,.7); }
-.cp-challenge[aria-pressed="true"]{ background: var(--paper); color: var(--ink); border-color: var(--paper); }
-.cp-challenge[aria-pressed="true"]::before{ border-color: var(--ink); background: var(--ink); box-shadow: inset 0 0 0 3px var(--paper); }
+.cp-challenge[aria-pressed="true"]{ background: var(--bar-fg); color: var(--bar); border-color: var(--bar-fg); }
+.cp-challenge[aria-pressed="true"]::before{ border-color: var(--bar); background: var(--bar); box-shadow: inset 0 0 0 3px var(--bar-fg); }
 .cp-today-hint{ font-size: 13px; opacity: .7; margin: 10px 0 0; }
 
 /* Actions */
@@ -108,7 +109,7 @@
   display: flex; align-items: center; justify-content: center; gap: 12px;
   width: 100%; padding: 24px 20px; border-radius: 20px; border: 0; cursor: pointer;
   background: var(--ink); color: var(--paper);
-  font-family: 'Fraunces', serif; font-size: clamp(26px, 6vw, 32px); font-weight: 600;
+  font-family: 'Fraunces', 'NH Deva Serif', serif; font-size: clamp(26px, 6vw, 32px); font-weight: 600;
   box-shadow: 0 14px 30px -14px rgba(0,0,0,.6);
   transition: transform .15s, opacity .15s;
 }
@@ -119,21 +120,21 @@
 .cp-soft-btn{
   display: flex; align-items: center; justify-content: center; gap: 8px;
   padding: 16px 12px; border-radius: 16px; cursor: pointer;
-  border: 1.5px solid var(--ink); background: #fff; color: var(--ink);
+  border: 1.5px solid var(--ink); background: var(--paper); color: var(--ink);
   font: inherit; font-size: 16px; font-weight: 600; text-align: center;
   transition: background .15s, color .15s;
 }
-.cp-soft-btn:hover{ background: var(--ink); color: #fff; }
+.cp-soft-btn:hover{ background: var(--ink); color: var(--paper); }
 .cp-icon{ width: 1.1em; height: 1.1em; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linejoin: round; stroke-linecap: round; }
 .cp-upload-btn .cp-icon{ width: 30px; height: 30px; }
-.cp-badge{ min-width: 24px; padding: 1px 8px; border-radius: 99px; background: var(--ink); color: #fff; font-size: 13px; font-weight: 700; }
+.cp-badge{ min-width: 24px; padding: 1px 8px; border-radius: 99px; background: var(--ink); color: var(--paper); font-size: 13px; font-weight: 700; }
 
 /* Photos being sent */
 .cp-sending{ margin-top: 18px; }
 .cp-previews{ display: grid; grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); gap: 6px; }
-.cp-previews img{ width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; background: #eee; transition: opacity .3s; }
+.cp-previews img{ width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; background: var(--paper-soft); transition: opacity .3s; }
 .cp-previews img.waiting{ opacity: .4; }
-.cp-progress{ height: 8px; border-radius: 99px; background: rgba(0,0,0,.08); overflow: hidden; margin-top: 12px; }
+.cp-progress{ height: 8px; border-radius: 99px; background: var(--line); overflow: hidden; margin-top: 12px; }
 .cp-progress span{ display: block; height: 100%; width: 0; background: var(--ink); transition: width .3s; }
 
 /* Name & team */
@@ -143,8 +144,8 @@
 .cp-field{ display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
 .cp-field label{ font-size: 14px; font-weight: 600; }
 .cp-field input{
-  font-family: 'Work Sans', sans-serif; font-size: 16px; padding: 12px 14px;
-  border: 1px solid var(--line); border-radius: 10px; background: #fff; color: var(--ink); width: 100%;
+  font-family: 'Work Sans', 'NH Deva Sans', sans-serif; font-size: 16px; padding: 12px 14px;
+  border: 1px solid var(--line); border-radius: 10px; background: var(--paper); color: var(--ink); width: 100%;
 }
 .cp-teams{ display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; margin-top: 6px; }
 .cp-team-btn{
@@ -195,13 +196,13 @@
 .cp-albums{ display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
 .cp-album{
   position: relative; display: block; aspect-ratio: 4/5; border-radius: 22px; overflow: hidden;
-  background: var(--ink); color: #fff;
+  background: var(--bar); color: #fff;
   transition: transform .2s;
 }
 .cp-album:hover{ transform: translateY(-3px); }
 .cp-album img{ position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .cp-album::after{ content: ""; position: absolute; inset: 0; background: linear-gradient(rgba(0,0,0,.55), transparent 40%, transparent 55%, rgba(0,0,0,.7)); }
-.cp-album-title{ position: absolute; left: 16px; right: 16px; top: 14px; z-index: 1; font-family: 'Fraunces', serif; font-size: 22px; font-weight: 600; line-height: 1.15; text-shadow: 0 1px 10px rgba(0,0,0,.45); }
+.cp-album-title{ position: absolute; left: 16px; right: 16px; top: 14px; z-index: 1; font-family: 'Fraunces', 'NH Deva Serif', serif; font-size: 22px; font-weight: 600; line-height: 1.15; text-shadow: 0 1px 10px rgba(0,0,0,.45); }
 .cp-album-foot{ position: absolute; left: 16px; right: 16px; bottom: 14px; z-index: 1; display: flex; align-items: center; justify-content: space-between; font-size: 14px; font-weight: 600; }
 .cp-album-foot .cp-team-dot{ width: 14px; height: 14px; border: 2px solid #fff; }
 
@@ -209,7 +210,7 @@
 .cp-grid{ display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; }
 .cp-thumb{
   position: relative; display: block; padding: 0; border: 0; cursor: pointer;
-  aspect-ratio: 1; border-radius: 12px; overflow: hidden; background: rgba(0,0,0,.06);
+  aspect-ratio: 1; border-radius: 12px; overflow: hidden; background: var(--paper-soft);
 }
 .cp-thumb img{ width: 100%; height: 100%; object-fit: cover; transition: transform .3s; }
 .cp-thumb:hover img{ transform: scale(1.04); }
@@ -304,7 +305,7 @@
   max-width: 680px; margin: 24px auto 48px; padding: 56px 32px; background: var(--paper);
   border-radius: 8px; text-align: center; display: flex; flex-direction: column; align-items: center;
 }
-.cp-poster-logo{ font-family: 'Fraunces', serif; font-size: 26px; font-weight: 600; }
+.cp-poster-logo{ font-family: 'Fraunces', 'NH Deva Serif', serif; font-size: 26px; font-weight: 600; }
 .cp-poster-tag{ margin-top: 18px; font-size: 14px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
 .cp-poster h1{ font-size: clamp(48px, 10vw, 88px); margin-top: 14px; }
 .cp-poster-lead{ font-size: 20px; margin: 18px 0 26px; max-width: 26ch; }
@@ -341,7 +342,7 @@
 }
 .cp-live-who{ display: flex; align-items: center; gap: 1vw; font-size: 2.4vw; font-weight: 600; }
 .cp-live-who .cp-team-pill{ font-size: 1.5vw; padding: .3vw 1vw; text-shadow: none; }
-.cp-live-challenge{ font-family: 'Fraunces', serif; font-size: 2vw; }
+.cp-live-challenge{ font-family: 'Fraunces', 'NH Deva Serif', serif; font-size: 2vw; }
 .cp-live-likes{ font-size: 1.6vw; font-weight: 700; }
 .cp-live-new{
   align-self: flex-start; font-size: 1.3vw; font-weight: 800; letter-spacing: .1em;
@@ -357,7 +358,7 @@
 .cp-live-join-qr{ width: 9vw; height: 9vw; }
 .cp-live-join-qr img, .cp-live-join-qr canvas{ width: 100% !important; height: 100% !important; }
 .cp-live-join-text{ font-size: 1.3vw; font-weight: 600; line-height: 1.3; max-width: 12vw; }
-.cp-live-join-text b{ display: block; font-family: 'Fraunces', serif; font-size: 1.9vw; }
+.cp-live-join-text b{ display: block; font-family: 'Fraunces', 'NH Deva Serif', serif; font-size: 1.9vw; }
 
 /* "Today's challenge" card shown between photos */
 .cp-live-card{
@@ -369,7 +370,7 @@
 .cp-live-card h2{ color: #fff; font-size: 5.5vw; max-width: 22ch; }
 .cp-live-card .more{ font-size: 2vw; opacity: .8; display: flex; flex-direction: column; gap: 1vh; }
 
-.cp-live-empty{ position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; font-family: 'Fraunces', serif; font-size: 4vw; padding: 0 22vw 0 10vw; }
+.cp-live-empty{ position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; font-family: 'Fraunces', 'NH Deva Serif', serif; font-size: 4vw; padding: 0 22vw 0 10vw; }
 .cp-live-error{ position: fixed; top: 2vh; right: 2vw; font-size: 14px; background: rgba(198,40,40,.85); padding: 6px 14px; border-radius: 99px; margin: 0; }
 .cp-live-tip{ position: fixed; top: 2vh; left: 2vw; font-size: 13px; opacity: 0; transition: opacity .4s; background: rgba(0,0,0,.6); padding: 6px 12px; border-radius: 99px; }
 .cp-live.show-cursor .cp-live-tip{ opacity: .85; }

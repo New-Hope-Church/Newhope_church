@@ -18,17 +18,79 @@
     Oversized stacked display headlines, minimal structural grids,
     pill-shaped nav CTA, high-contrast monochrome aesthetic.
 
+  Dark theme
+    :root[data-theme="dark"] swaps the palette above (light text on a
+    near-black page). js/theme.js picks the theme before the page paints:
+    the visitor's saved choice, otherwise their device setting. The
+    header button (.theme-toggle) switches it and script.js saves it.
+    --bar / --bar-soft / --bar-fg are the black surfaces and their white
+    text (Give band, photo hero); they stay the same in both themes, so
+    use them there instead of --ink/--paper. The closing "Plan your visit"
+    bands (.section-cta) follow the theme like the footer.
+
   Contrast notes
-    The header and footer are solid black surfaces, so every element
-    that lives inside them (logo mark, nav links, toggle, buttons) is
-    explicitly flipped to white/paper here rather than inheriting the
-    default ink-on-paper rules meant for the rest of the page. The
-    mobile nav panel drops back onto a white surface, so its own text
-    is flipped back to ink within that breakpoint.
+    The header and footer follow the theme (ink on paper / paper-soft),
+    so their links, toggles and buttons use the normal tokens. The logo
+    (logo.svg) is drawn black and is inverted to white in the dark theme.
+    The Give band and photo hero are fixed black and use the --bar tokens.
   ------------------------------------------------------------
 */
 
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap');
+
+/* Nepali (Devanagari) fonts. Fraunces and Work Sans have no Devanagari, so
+   Nepali letters fall through to these. They are the Google Fonts files for
+   Noto Serif Devanagari and Mukta, declared here so size-adjust can scale them
+   to look the same size as the English next to them: the top of the Nepali
+   letters lines up with the top of English capitals (measured: Noto Serif
+   Devanagari is ~10% shorter than Fraunces, Mukta ~4% shorter than Work Sans).
+   unicode-range means they download only for Nepali text. */
+@font-face{
+  font-family: 'NH Deva Serif';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/notoserifdevanagari/v34/x3dNcl3IZKmUqiMk48ZHXJ5jwU-DZGRSaQ4Hh2dGyFzPLcQPVbnRH-xEMqTN.woff2) format('woff2');
+  unicode-range: U+0900-097F, U+1CD0-1CF4, U+1CF7-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B0A;
+  size-adjust: 111%;
+}
+@font-face{
+  font-family: 'NH Deva Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/mukta/v17/iJWKBXyXfDDVXbnArXyi0A.woff2) format('woff2');
+  unicode-range: U+0900-097F, U+1CD0-1CF4, U+1CF7-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B0A;
+  size-adjust: 104%;
+}
+@font-face{
+  font-family: 'NH Deva Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/mukta/v17/iJWHBXyXfDDVXbEyjmmc8WDm7Q.woff2) format('woff2');
+  unicode-range: U+0900-097F, U+1CD0-1CF4, U+1CF7-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B0A;
+  size-adjust: 104%;
+}
+@font-face{
+  font-family: 'NH Deva Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/mukta/v17/iJWHBXyXfDDVXbEeiWmc8WDm7Q.woff2) format('woff2');
+  unicode-range: U+0900-097F, U+1CD0-1CF4, U+1CF7-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B0A;
+  size-adjust: 104%;
+}
+@font-face{
+  font-family: 'NH Deva Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/mukta/v17/iJWHBXyXfDDVXbF6iGmc8WDm7Q.woff2) format('woff2');
+  unicode-range: U+0900-097F, U+1CD0-1CF4, U+1CF7-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B0A;
+  size-adjust: 104%;
+}
+
 
 :root{
   --ink: #000000;
@@ -38,7 +100,24 @@
   --line: #E5E5E5;
   --line-dark: #262626;
   --muted: #666666;
+  /* surfaces that stay black in both themes (header, footer, dark bands) */
+  --bar: #000000;
+  --bar-soft: #121212;
+  --bar-fg: #FFFFFF;
   --max: 1600px;
+  color-scheme: light;
+}
+
+/* dark theme: js/theme.js sets data-theme on <html> before the page paints */
+:root[data-theme="dark"]{
+  --ink: #F2F2F2;
+  --paper: #0E0E0E;
+  --ink-soft: #E0E0E0;
+  --paper-soft: #181818;
+  --line: #2A2A2A;
+  --line-dark: #262626;
+  --muted: #A3A3A3;
+  color-scheme: dark;
 }
 
 *{ box-sizing: border-box; }
@@ -48,20 +127,23 @@ body{
   margin: 0;
   background: var(--paper);
   color: var(--ink);
-  font-family: 'Work Sans', sans-serif;
+  font-family: 'Work Sans', 'NH Deva Sans', sans-serif;
   font-size: 17px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
 h1, h2, h3, .display{
-  font-family: 'Fraunces', serif;
+  font-family: 'Fraunces', 'NH Deva Serif', serif;
   font-weight: 500;
   line-height: 1.05;
   margin: 0;
   letter-spacing: -0.01em;
   color: var(--ink);
 }
+/* Devanagari vowel signs (ू, ु, ि) reach above and below the line, so
+   Nepali headings need more room between lines than English ones */
+h1:lang(ne), h2:lang(ne), h3:lang(ne), .display:lang(ne){ line-height: 1.3; }
 
 p{ margin: 0 0 1em; }
 a{ color: inherit; text-decoration: none; }
@@ -114,14 +196,15 @@ img{ max-width: 100%; display: block; }
 }
 .reveal.in{ opacity: 1; transform: none; }
 
-/* ---------- header / nav (black bar, white content) ---------- */
+/* ---------- header / nav (follows the theme: white bar in light, near-black in dark) ---------- */
 
 .site-header{
-  background: var(--ink);
-  border-bottom: 1px solid var(--line-dark);
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
   position: sticky;
   top: 0;
   z-index: 50;
+  transition: background 0.2s ease, border-color 0.2s ease;
 }
 
 .nav{
@@ -134,8 +217,39 @@ img{ max-width: 100%; display: block; }
   gap: 24px;
 }
 
+/* desktop: three columns (logo | menu | buttons). The menu is centred in the
+   middle column, and the side columns never change width (see .nh-fixed),
+   so switching EN ↔ ने leaves the menu where it is. */
+@media (min-width: 901px){
+  .nav{ display: grid; grid-template-columns: auto 1fr auto; }
+  .nav > .logo{ grid-column: 1; }
+  .nav > .nav-links{ grid-column: 2; justify-self: center; }
+  .nav > .nav-right{ grid-column: 3; }
+}
+
+/* a translated label that keeps the width of its longer language, so it
+   doesn't grow or shrink when the language changes. Both versions are laid
+   out as invisible zero-height lines; only the visible text shows. */
+.nh-fixed{
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.nh-fixed::before,
+.nh-fixed::after{
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.nh-fixed::before{ content: attr(data-en); }
+.nh-fixed::after{ content: attr(data-np); }
+.logo .nh-fixed{ align-items: flex-start; }
+
 .logo{
-  font-family: 'Fraunces', serif;
+  font-family: 'Fraunces', 'NH Deva Serif', serif;
   font-size: 22px;
   font-weight: 600;
   display: flex;
@@ -145,16 +259,18 @@ img{ max-width: 100%; display: block; }
   color: var(--ink);
 }
 
-/* header logo sits on black, footer logo already sets its own inline color */
-.site-header .logo{ color: var(--paper); }
-
 .logo .mark{
-  width: 40px;
-  height: 50px;
+  width: 44px;
+  height: 44px;
   flex: none;
-  position: relative;
-  top: -4px; 
+  /* logo.svg is a black badge; flipped to white on dark backgrounds
+     (the footer, and the navbar in the dark theme) */
+  filter: invert(1);
 }
+
+/* light theme: the header and footer are light, so show the logo as drawn */
+:root:not([data-theme="dark"]) .logo .mark{ filter: none; }
+
 
 .nav-links{
   display: flex;
@@ -168,15 +284,15 @@ img{ max-width: 100%; display: block; }
 }
 
 .nav-links a{
-  color: var(--paper);
+  color: var(--ink);
   padding-bottom: 3px;
   border-bottom: 2px solid transparent;
   transition: border-color 0.15s ease, opacity 0.15s ease;
 }
 
-.nav-links a:hover{ border-color: var(--paper); }
+.nav-links a:hover{ border-color: var(--ink); }
 
-.nav-links a.active{ border-color: var(--paper); font-weight: 600; }
+.nav-links a.active{ border-color: var(--ink); font-weight: 600; }
 
 .nav-right{
   display: flex;
@@ -184,23 +300,87 @@ img{ max-width: 100%; display: block; }
   gap: 16px;
 }
 
+/* theme + language sit together in the far right corner, set off from the
+   Find us / Contact Us buttons by a thin divider */
+.nav-prefs{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.nav-right .btn + .nav-prefs{
+  padding-left: 16px;
+  border-left: 1px solid var(--line);
+}
+
+/* language switch: a pill with a knob that slides between EN and ने.
+   The knob sits under the language you're reading; <html lang> (set by
+   script.js) decides which side. .ready turns the slide animation on only
+   after the first paint, so a saved Nepali choice doesn't animate on load. */
 .lang-toggle{
-  border: 1px solid var(--paper);
-  background: transparent;
+  position: relative;
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  flex: none;
+  width: 80px;
+  height: 34px;
+  padding: 3px;
+  border: 1px solid var(--ink);
   border-radius: 999px;
-  padding: 7px 12px;
-  font-size: 13px;
-  font-weight: 600;
+  background: transparent;
+  color: var(--ink);
   font-family: inherit;
-  color: var(--paper);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+.lang-toggle::before{
+  content: "";
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  left: 3px;
+  width: calc(50% - 3px);
+  border-radius: 999px;
+  background: var(--ink);
+}
+.lang-toggle.ready::before{ transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease; }
+:root[lang="ne"] .lang-toggle::before{ transform: translateX(100%); }
+
+.lang-opt{
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  line-height: 1;
+  opacity: 0.55;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+.lang-opt-np{ font-size: 14px; letter-spacing: 0; }
+:root:not([lang="ne"]) .lang-opt-en,
+:root[lang="ne"] .lang-opt-np{ color: var(--paper); opacity: 1; }
+.lang-toggle:hover .lang-opt{ opacity: 1; }
+
+/* theme toggle: shows the icon of the theme you'd switch TO */
+.theme-toggle{
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
   cursor: pointer;
   transition: background 0.15s ease, color 0.15s ease;
 }
-
-.lang-toggle:hover{
-  background: var(--paper);
-  color: var(--ink);
-}
+.theme-toggle:hover{ background: var(--ink); color: var(--paper); }
+.theme-toggle svg{ width: 17px; height: 17px; }
+.theme-toggle .icon-sun{ display: none; }
+:root[data-theme="dark"] .theme-toggle .icon-sun{ display: block; }
+:root[data-theme="dark"] .theme-toggle .icon-moon{ display: none; }
 
 .btn{
   display: inline-flex;
@@ -210,7 +390,7 @@ img{ max-width: 100%; display: block; }
   padding: 12px 22px;
   font-size: 14px;
   font-weight: 600;
-  font-family: 'Work Sans', sans-serif;
+  font-family: 'Work Sans', 'NH Deva Sans', sans-serif;
   border: 1px solid transparent;
   cursor: pointer;
   transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
@@ -225,15 +405,8 @@ img{ max-width: 100%; display: block; }
 .btn-ghost{ border-color: var(--ink); color: var(--ink); background: transparent; }
 .btn-ghost:hover{ background: var(--ink); color: var(--paper); }
 
-.btn-on-dark{ border-color: var(--paper); color: var(--paper); background: transparent; }
-.btn-on-dark:hover{ background: var(--paper); color: var(--ink); }
-
-/* nav buttons sit on the black header — flip both variants to stay visible */
-.site-header .btn-primary{ background: var(--paper); color: var(--ink); }
-.site-header .btn-primary:hover{ background: var(--paper-soft); }
-
-.site-header .btn-ghost{ border-color: var(--paper); color: var(--paper); }
-.site-header .btn-ghost:hover{ background: var(--paper); color: var(--ink); }
+.btn-on-dark{ border-color: var(--bar-fg); color: var(--bar-fg); background: transparent; }
+.btn-on-dark:hover{ background: var(--bar-fg); color: var(--bar); }
 
 .nav-toggle{
   display: none;
@@ -246,7 +419,7 @@ img{ max-width: 100%; display: block; }
   display: block;
   width: 24px;
   height: 2px;
-  background: var(--paper);
+  background: var(--ink);
   margin: 5px 0;
 }
 
@@ -254,7 +427,7 @@ img{ max-width: 100%; display: block; }
 .church-item{
   display:flex; flex-direction:column; gap:4px; text-align:left;
   padding:14px 16px; border:1px solid var(--line); border-radius:4px;
-  background:var(--paper); cursor:pointer; font-family:'Work Sans', sans-serif;
+  background:var(--paper); cursor:pointer; font-family:'Work Sans', 'NH Deva Sans', sans-serif;
   transition:border-color .15s ease, background .15s ease;
 }
 .church-item span{ font-size:13px; color:var(--muted); }
@@ -289,7 +462,7 @@ img{ max-width: 100%; display: block; }
 }
 
 .church-item strong{
-  font-family: 'Fraunces', serif;
+  font-family: 'Fraunces', 'NH Deva Serif', serif;
   font-weight: 500;
   font-size: 18px;
   color: var(--ink);
@@ -325,9 +498,11 @@ img{ max-width: 100%; display: block; }
 
 /* ---------- footer ---------- */
 
+/* follows the theme like the navbar: light grey in light, near-black in dark */
 .site-footer{
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--paper-soft);
+  color: var(--ink);
+  border-top: 1px solid var(--line);
   padding: 64px 0 28px;
   margin-top: 120px;
 }
@@ -337,16 +512,16 @@ img{ max-width: 100%; display: block; }
   grid-template-columns: 1.3fr 1fr 1fr 1fr;
   gap: 40px;
   padding-bottom: 40px;
-  border-bottom: 1px solid var(--line-dark);
+  border-bottom: 1px solid var(--line);
 }
 
 .footer-grid h4{
-  font-family: 'Work Sans', sans-serif;
+  font-family: 'Work Sans', 'NH Deva Sans', sans-serif;
   font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--paper);
+  color: var(--ink);
   margin: 0 0 14px;
 }
 
@@ -356,18 +531,20 @@ img{ max-width: 100%; display: block; }
 .footer-grid a:hover{ opacity: 1; }
 
 .footer-brand p{
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--muted);
   font-size: 15px;
   max-width: 32ch;
 }
 
+.footer-bottom .nh-fixed{ align-items: flex-start; }
+.footer-bottom .nh-fixed:last-child{ align-items: flex-end; }
 .footer-bottom{
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-top: 24px;
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--muted);
   flex-wrap: wrap;
   gap: 12px;
 }
@@ -469,8 +646,16 @@ section.tight{ padding: 64px 0; }
 
 @media (max-width: 560px){
   .wrap{ padding: 0 20px; }
-  .nav{ padding: 16px 20px; gap: 12px; }
-  .nav-links{ top: 83px; }
+  .nav{ padding: 16px 20px; gap: 8px; }
+  /* phone header: logo · theme · EN|ने · ☰ — controls shrink to fit 320px */
+  .logo{ gap: 8px; }
+  .logo .mark{ width: 38px; height: 38px; }
+  .nav-right{ gap: 8px; margin-left: auto; }
+  .nav-right .btn + .nav-prefs{ padding-left: 0; border-left: 0; }
+  .nav-toggle{ order: 3; }
+  .theme-toggle{ width: 32px; height: 32px; }
+  .lang-toggle{ width: 66px; height: 32px; }
+  .nav-links{ top: 77px; }
   /* not enough room for it on a phone; Connect in the menu leads to the same page */
   .nav-right .btn-primary{ display: none; }
   .connect-cards{ grid-template-columns: 1fr; }
@@ -555,7 +740,7 @@ section.tight{ padding: 64px 0; }
   padding: 14px 22px;
   font-size: 14px;
   font-weight: 600;
-  font-family: 'Work Sans', sans-serif;
+  font-family: 'Work Sans', 'NH Deva Sans', sans-serif;
   border-radius: 4px;
   text-decoration: none;
   align-self: flex-start;
@@ -566,7 +751,7 @@ section.tight{ padding: 64px 0; }
 }
 
 .btn-dark:hover {
-  background: #333;
+  opacity: 0.85;
   transform: translateY(-1px);
 }
 
@@ -584,11 +769,11 @@ section.tight{ padding: 64px 0; }
 
 /*GIVE PAGE — giving options*/
 
-.giving{ background: var(--ink); color: var(--paper); }
+.giving{ background: var(--bar); color: var(--bar-fg); }
 .giving-in{ max-width: 860px; text-align: center; }
-.giving h2, .giving h3{ color: var(--paper); }
+.giving h2, .giving h3{ color: var(--bar-fg); }
 .giving h2{ font-size: clamp(30px, 4vw, 44px); }
-.giving :focus-visible{ outline-color: var(--paper); }
+.giving :focus-visible{ outline-color: var(--bar-fg); }
 
 .giving-sub{ font-size: clamp(24px, 3vw, 32px); margin: 56px 0 24px; }
 
@@ -598,7 +783,7 @@ section.tight{ padding: 64px 0; }
   border-radius: 16px;
   overflow: hidden;
   margin: 32px 0 0;
-  background: var(--ink-soft);
+  background: var(--bar-soft);
 }
 .seg-2{ grid-template-columns: 1fr 1fr; }
 .seg-3{ grid-template-columns: repeat(3, 1fr); margin-top: 0; }
@@ -609,15 +794,15 @@ section.tight{ padding: 64px 0; }
   border: none;
   border-right: 1px solid var(--line-dark);
   padding: 22px 12px;
-  font-family: 'Work Sans', sans-serif;
+  font-family: 'Work Sans', 'NH Deva Sans', sans-serif;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.15s ease, color 0.15s ease;
 }
 .seg-btn:last-child{ border-right: none; }
-.seg-btn:hover{ background: #1c1c1c; color: var(--paper); }
-.seg-btn.active{ background: #333; color: var(--paper); }
+.seg-btn:hover{ background: #1c1c1c; color: var(--bar-fg); }
+.seg-btn.active{ background: #333; color: var(--bar-fg); }
 
 .giving-desc{
   margin: 24px auto 0;
@@ -634,25 +819,25 @@ section.tight{ padding: 64px 0; }
   text-align: left;
   border: 1px solid var(--line-dark);
   border-radius: 16px;
-  background: var(--ink-soft);
+  background: var(--bar-soft);
   padding: 32px;
 }
 .giving-panel[hidden]{ display: none; }
 
-.panel-lead{ font-size: 18px; color: var(--paper); margin-bottom: 8px; }
+.panel-lead{ font-size: 18px; color: var(--bar-fg); margin-bottom: 8px; }
 .panel-sub{ color: rgba(255,255,255,0.6); margin-bottom: 24px; }
 .panel-note{ font-size: 14px; color: rgba(255,255,255,0.6); margin: 16px 0 0; }
 
 .give-form .form-row{ display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; }
-.give-form label{ font-size: 14px; font-weight: 600; color: var(--paper); }
+.give-form label{ font-size: 14px; font-weight: 600; color: var(--bar-fg); }
 .give-form input, .give-form textarea, .give-form select{
-  font-family: 'Work Sans', sans-serif;
+  font-family: 'Work Sans', 'NH Deva Sans', sans-serif;
   font-size: 15px;
   padding: 12px 14px;
   border: 1px solid var(--line-dark);
   border-radius: 4px;
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--bar);
+  color: var(--bar-fg);
 }
 .give-form input::placeholder, .give-form textarea::placeholder{ color: rgba(255,255,255,0.4); }
 .give-form textarea{ resize: vertical; min-height: 90px; }
@@ -754,17 +939,17 @@ section.tight{ padding: 64px 0; }
 .copy-btn{
   flex: none;
   background: transparent;
-  color: var(--paper);
-  border: 1px solid var(--paper);
+  color: var(--bar-fg);
+  border: 1px solid var(--bar-fg);
   border-radius: 999px;
   padding: 8px 16px;
-  font-family: 'Work Sans', sans-serif;
+  font-family: 'Work Sans', 'NH Deva Sans', sans-serif;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.15s ease, color 0.15s ease;
 }
-.copy-btn:hover:not(:disabled){ background: var(--paper); color: var(--ink); }
+.copy-btn:hover:not(:disabled){ background: var(--bar-fg); color: var(--bar); }
 .copy-btn:disabled{ opacity: 0.3; cursor: not-allowed; }
 
 .chips{ display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0 24px; }
@@ -774,14 +959,14 @@ section.tight{ padding: 64px 0; }
   border: 1px solid var(--line-dark);
   border-radius: 999px;
   padding: 10px 20px;
-  font-family: 'Work Sans', sans-serif;
+  font-family: 'Work Sans', 'NH Deva Sans', sans-serif;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
-.chip:hover{ border-color: var(--paper); color: var(--paper); }
-.chip.active{ background: var(--paper); color: var(--ink); border-color: var(--paper); }
+.chip:hover{ border-color: var(--bar-fg); color: var(--bar-fg); }
+.chip.active{ background: var(--bar-fg); color: var(--bar); border-color: var(--bar-fg); }
 
 .wallet-body{ display: grid; grid-template-columns: 180px 1fr; gap: 28px; align-items: start; }
 .wallet-body[hidden]{ display: none; }
@@ -795,7 +980,7 @@ section.tight{ padding: 64px 0; }
   color: rgba(255,255,255,0.5);
   font-size: 14px;
 }
-.wallet-body img{ width: 100%; border-radius: 12px; background: var(--paper); }
+.wallet-body img{ width: 100%; border-radius: 12px; background: #FFFFFF; }
 .wallet-help{ color: rgba(255,255,255,0.75); font-size: 15px; }
 .wallet-info .detail-row:first-of-type{ border-top: 1px solid var(--line-dark); }
 
@@ -856,7 +1041,7 @@ section.tight{ padding: 64px 0; }
 }
 
 /* dark hero: full-colour photos drift behind a dark gradient, text is white */
-.hero-photo-section{ position: relative; overflow: hidden; background: var(--ink); }
+.hero-photo-section{ position: relative; overflow: hidden; background: var(--bar); }
 .hero-photo-section > .wrap{ position: relative; z-index: 1; }
 
 /* darker on the left where the text sits, lighter on the right so faces show */
@@ -871,15 +1056,15 @@ section.tight{ padding: 64px 0; }
     linear-gradient(90deg, rgba(0,0,0,0.86) 0%, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0.35) 100%);
 }
 
-.hero-photo-section h1{ color: var(--paper); }
+.hero-photo-section h1{ color: var(--bar-fg); }
 .hero-photo-section .hero-in{ text-shadow: 0 1px 18px rgba(0,0,0,0.45); }
 .hero-photo-section .btn{ text-shadow: none; }
-.hero-photo-section :focus-visible{ outline-color: var(--paper); }
+.hero-photo-section :focus-visible{ outline-color: var(--bar-fg); }
 
-.hero-photo-section .btn-primary{ background: var(--paper); color: var(--ink); }
-.hero-photo-section .btn-primary:hover{ background: var(--paper-soft); opacity: 1; }
-.hero-photo-section .btn-ghost{ border-color: var(--paper); color: var(--paper); }
-.hero-photo-section .btn-ghost:hover{ background: var(--paper); color: var(--ink); }
+.hero-photo-section .btn-primary{ background: var(--bar-fg); color: var(--bar); }
+.hero-photo-section .btn-primary:hover{ background: #E5E5E5; opacity: 1; }
+.hero-photo-section .btn-ghost{ border-color: var(--bar-fg); color: var(--bar-fg); }
+.hero-photo-section .btn-ghost:hover{ background: var(--bar-fg); color: var(--bar); }
 
 /* on phones the text spans the full width, so darken evenly */
 @media (max-width: 900px){
@@ -909,7 +1094,9 @@ section.flush-top{ padding-top: 0; }
 .bg-paper{ background: var(--paper); }
 .line-top{ border-top: 1px solid var(--line); }
 .line-bottom{ border-bottom: 1px solid var(--line); }
-.section-dark{ background: var(--ink); color: var(--paper); }
+/* closing call-to-action band ("Plan your visit"): follows the theme like the
+   footer, light grey in light and near-black in dark */
+.section-cta{ background: var(--paper-soft); color: var(--ink); border-top: 1px solid var(--line); }
 
 h2.h-section{ font-size: clamp(26px, 3vw, 34px); }
 .text-muted-sm{ color: var(--muted); font-size: 15px; }
@@ -917,7 +1104,6 @@ h2.h-section{ font-size: clamp(26px, 3vw, 34px); }
 
 .btn-row{ display: flex; gap: 16px; margin-top: 32px; flex-wrap: wrap; }
 .cta-actions{ margin-top: 28px; }
-.btn.btn-light, .btn.btn-light:hover{ background: var(--paper); color: var(--ink); }
 
 .connect-card{ text-decoration: none; min-height: 220px; justify-content: flex-end; background: var(--paper); }
 
