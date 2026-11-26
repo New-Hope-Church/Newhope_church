@@ -6,3 +6,5 @@ Dockerfile
 docker-compose.yml
 README.md
 apps-script
+pictures/source
+graphify-out
