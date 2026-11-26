@@ -35,6 +35,7 @@ js/camp-photos.js      camp photo pages
 partials/              the header (menu) and footer shared by every page
 pictures/              images used by the site
 pictures/source/       original photos and unused files, kept but never published
+pictures/icons/        browser tab and home-screen icons (with favicon.ico and site.webmanifest)
 apps-script/           Google Apps Script code behind the forms (not served)
 robots.txt, sitemap.xml  for search engines (update sitemap.xml when you add a page)
 nginx.conf, nginx/     the web server and its security headers
